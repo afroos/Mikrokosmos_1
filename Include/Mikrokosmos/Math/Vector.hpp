@@ -199,11 +199,12 @@ namespace Mikrokosmos
 	}
 
 	template <typename T, std::size_t N>
-	std::ostream& operator<<(std::ostream& os, const Vector<Real, N>& v)
+	std::ostream& operator<<(std::ostream& os, const Vector<T, N>& v)
 	{
 		os << '(';
-		std::copy(v.begin(), v.end(), std::ostream_iterator<T>(os, ", "));
-		os << "\b\b)";
+		std::copy(v.begin(), v.end() - 1, std::ostream_iterator<T>(os, ", "));
+		os << v[N - 1];
+		os << ')';
 		return os;
 	}
 

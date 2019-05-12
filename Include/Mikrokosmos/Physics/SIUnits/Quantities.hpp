@@ -4,6 +4,7 @@
 #include <Mikrokosmos/Common/Real.hpp>
 #include <Mikrokosmos/Math/Constants.hpp>
 #include <Mikrokosmos/Math/Constants.hpp>
+#include <Mikrokosmos/Math/Vector.hpp>
 #include <Mikrokosmos/Physics/SIUnits/Prefixes.hpp>
 #include <Mikrokosmos/Physics/SIUnits/Units.hpp>
 
@@ -130,5 +131,6 @@ namespace Mikrokosmos
 	MIKROKOSMOS_UNIT_LITERAL(SecondMomentOfArea, meter * meter * meter * meter, _m4);
 	MIKROKOSMOS_UNIT_LITERAL(LinearMomentum, kilogram * meter / second, _kgmps);
 	MIKROKOSMOS_UNIT_LITERAL(AngularMomentum, kilogram * meter * meter * radian / second, _kgm2ps);
+
 }
 #endif

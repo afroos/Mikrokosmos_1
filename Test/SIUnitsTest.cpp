@@ -27,7 +27,7 @@ TEST_CASE("SIUnits: Quantities") {
 	constexpr Force f4 = 1500.0 * kilogram * meter / (second * second);
 	constexpr Force f5 = 750.0 * newton + 750.0 * newton;
 	constexpr auto f6 = 750.0_N + 750.0_N;
-	constexpr Force f7 = Mass{ 300.0 } *LinearAcceleration{ 5.0 };
+	constexpr Force f7 = Mass{ 300.0 } * LinearAcceleration{ 5.0 };
 	constexpr auto f8 = -1500.0_N;
 
 	REQUIRE(f1 == f2);
@@ -39,11 +39,11 @@ TEST_CASE("SIUnits: Quantities") {
 	REQUIRE(f7 == -f8);
 	REQUIRE(36.0_kmph == 10.0_mps);
 
-	using Energy = decltype(Force{} *Length{});
+	using Energy = decltype(Force{} * Length{});
 	using Power  = decltype(Energy{} / Time{});
 
-	REQUIRE(Energy{ 12.0 } == Mass{ 3.0 } *LinearVelocity{ 2.0 } *LinearVelocity{ 2.0 });
-	REQUIRE(Power{ 15.0 } == Force{ 30.0 } *Length{ 1.0 } / Time{ 2.0 });
+	REQUIRE(Energy{ 12.0 } == Mass{ 3.0 } * LinearVelocity{ 2.0 } * LinearVelocity{ 2.0 });
+	REQUIRE(Power{ 15.0 } == Force{ 30.0 } * Length{ 1.0 } / Time{ 2.0 });
 }
 
 TEST_CASE("SIUnits: Storage size")

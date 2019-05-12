@@ -1,4 +1,7 @@
 #include "catch.hpp"
+#include <iomanip>
+#include <iostream>
+#include <sstream>
 #include <Mikrokosmos/Math/Vector.hpp>
 
 using namespace Mikrokosmos;
@@ -112,6 +115,14 @@ TEST_CASE("Vector: Arithmetic operators")
 
 	v3 = v2 / 0.5;
 	REQUIRE(v3 == Real3{ 2.0, 2.0, 2.0 });
+}
+
+TEST_CASE("Vector: Ostream operator")
+{
+	Real3 v{ -1.0, 0.0, 4.5 };
+	std::stringstream ss;
+	ss << std::fixed << std::setprecision(1) << v;
+	REQUIRE(ss.str() == "(-1.0, 0.0, 4.5)");
 }
 
 TEST_CASE("Vector: Dot product")
