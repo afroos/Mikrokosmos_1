@@ -17,9 +17,15 @@ namespace Mikrokosmos
 	};
 
 	template <int M1, int K1, int S1, int M2, int K2, int S2>
-	constexpr bool operator== (const Quantity<Unit<M1, K1, S1>>& q1, const Quantity<Unit<M2, K2, S2>>& q2) noexcept
+	constexpr bool operator== (const Quantity<Unit<M1, K1, S1>>& lhs, const Quantity<Unit<M2, K2, S2>>& rhs) noexcept
 	{
-		return (q1.magnitude == q2.magnitude) && (Unit<M1, K1, S1>{} == Unit<M2, K2, S2>{});
+		return (lhs.magnitude == rhs.magnitude) && (Unit<M1, K1, S1>{} == Unit<M2, K2, S2>{});
+	}
+
+	template <int M1, int K1, int S1, int M2, int K2, int S2>
+	constexpr bool operator!= (const Quantity<Unit<M1, K1, S1>>& lhs, const Quantity<Unit<M2, K2, S2>>& rhs) noexcept
+	{
+		return !(lhs == rhs);
 	}
 
 	template <int M, int K, int S>
@@ -29,51 +35,76 @@ namespace Mikrokosmos
 	}
 
 	template <int M, int K, int S>
-	constexpr decltype(auto) operator+ (const Quantity<Unit<M, K, S>>& q1, const Quantity<Unit<M, K, S>>& q2) noexcept 
+	constexpr decltype(auto) operator+ (const Quantity<Unit<M, K, S>>& lhs, const Quantity<Unit<M, K, S>>& rhs) noexcept
 	{
-		return Quantity<Unit<M, K, S>>{ q1.magnitude + q2.magnitude };
+		return Quantity<Unit<M, K, S>>{ lhs.magnitude + rhs.magnitude };
 	}
 
 	template <int M, int K, int S>
-	constexpr decltype(auto) operator- (const Quantity<Unit<M, K, S>>& q1, const Quantity<Unit<M, K, S>> & q2) noexcept 
+	constexpr decltype(auto) operator- (const Quantity<Unit<M, K, S>>& lhs, const Quantity<Unit<M, K, S>> & rhs) noexcept 
 	{
-		return Quantity<Unit<M, K, S>>{ q1.magnitude - q2.magnitude };
+		return Quantity<Unit<M, K, S>>{ lhs.magnitude - rhs.magnitude };
 	}
 
 	template <int M1, int K1, int S1, int M2, int K2, int S2>
-	constexpr decltype(auto) operator* (const Quantity<Unit<M1, K1, S1>>& q1, const Quantity<Unit<M2, K2, S2>> & q2) noexcept 
+	constexpr decltype(auto) operator* (const Quantity<Unit<M1, K1, S1>>& lhs, const Quantity<Unit<M2, K2, S2>> & rhs) noexcept 
 	{
-		return Quantity<Unit<M1 + M2, K1 + K2, S1 + S2>>{ q1.magnitude* q2.magnitude };
+		return Quantity<Unit<M1 + M2, K1 + K2, S1 + S2>>{ lhs.magnitude* rhs.magnitude };
 	}
 
 	template <int M1, int K1, int S1, int M2, int K2, int S2>
-	constexpr decltype(auto) operator/ (const Quantity<Unit<M1, K1, S1>>& q1, const Quantity<Unit<M2, K2, S2>> & q2) noexcept 
+	constexpr decltype(auto) operator/ (const Quantity<Unit<M1, K1, S1>>& lhs, const Quantity<Unit<M2, K2, S2>> & rhs) noexcept 
 	{
-		return Quantity<Unit<M1 - M2, K1 - K2, S1 - S2>>{ q1.magnitude / q2.magnitude };
+		return Quantity<Unit<M1 - M2, K1 - K2, S1 - S2>>{ lhs.magnitude / rhs.magnitude };
 	}
 
 	template <int M, int K, int S>
-	constexpr decltype(auto) operator/ (const int q1, const Quantity<Unit<M, K, S>>& q2) noexcept 
+	constexpr decltype(auto) operator/ (const int lhs, const Quantity<Unit<M, K, S>>& rhs) noexcept 
 	{
-		return Quantity<Unit<0, 0, 0>>{} / q2;
+		return Quantity<Unit<0, 0, 0>>{} / rhs;
 	}
 
 	template <int M, int K, int S>
-	constexpr decltype(auto) operator* (const Real magnitude, const Unit<M, K, S>& unit) noexcept
+	constexpr decltype(auto) operator* (const Real lhs, const Unit<M, K, S>& rhs) noexcept
 	{
-		return Quantity<Unit<M, K, S>>{ magnitude };
+		return Quantity<Unit<M, K, S>>{ lhs };
+	}
+
+	template <int M, int K, int S>
+	constexpr decltype(auto) operator* (const Unit<M, K, S>& lhs, const Real rhs) noexcept
+	{
+		return rhs * lhs;
+	}
+
+	template <int M, int K, int S>
+	constexpr decltype(auto) operator* (const Real lhs, const Quantity<Unit<M, K, S>>& rhs) noexcept
+	{
+		return Quantity<Unit<M, K, S>>{ rhs.magnitude * lhs };
+	}
+
+	template <int M, int K, int S>
+	constexpr decltype(auto) operator* (const Quantity<Unit<M, K, S>>& lhs, const Real rhs) noexcept
+	{
+		return rhs * lhs;
 	}
 
 	template <int M1, int K1, int S1, int M2, int K2, int S2>
-	constexpr decltype(auto) operator* (const Quantity<Unit<M1, K1, S1>>& q1, const Unit<M2, K2, S2>& q2) noexcept
+	constexpr decltype(auto) operator* (const Quantity<Unit<M1, K1, S1>>& lhs, const Unit<M2, K2, S2>& rhs) noexcept
 	{
-		return Quantity<Unit<M1 + M2, K1 + K2, S1 + S2>>{ q1.magnitude };
+		return Quantity<Unit<M1 + M2, K1 + K2, S1 + S2>>{ lhs.magnitude };
 	}
 
 	template <int M1, int K1, int S1, int M2, int K2, int S2>
-	constexpr decltype(auto) operator/ (const Quantity<Unit<M1, K1, S1>>& q1, const Unit<M2, K2, S2>& q2) noexcept
+	constexpr decltype(auto) operator/ (const Quantity<Unit<M1, K1, S1>>& lhs, const Unit<M2, K2, S2>& rhs) noexcept
 	{
-		return Quantity<Unit<M1 - M2, K1 - K2, S1 - S2>>{ q1.magnitude };
+		return Quantity<Unit<M1 - M2, K1 - K2, S1 - S2>>{ lhs.magnitude };
+	}
+
+	template <int M, int K, int S>
+	std::ostream& operator<<(std::ostream& os, const Quantity<Unit<M, K, S>>& q)
+	{
+		os << q.magnitude << " " << "m^" << M << "*" << "kg^" << K << "*" << "s^" << S;
+		return os;
 	}
 
 	using Length = Quantity<Unit<1, 0, 0>>;
@@ -131,6 +162,11 @@ namespace Mikrokosmos
 	MIKROKOSMOS_UNIT_LITERAL(SecondMomentOfArea, meter * meter * meter * meter, _m4);
 	MIKROKOSMOS_UNIT_LITERAL(LinearMomentum, kilogram * meter / second, _kgmps);
 	MIKROKOSMOS_UNIT_LITERAL(AngularMomentum, kilogram * meter * meter * radian / second, _kgm2ps);
+
+	using Length2 = Vector2<Length>;
+	using LinearVelocity2 = Vector2<LinearVelocity>;
+	using LinearAcceleration2 = Vector2<LinearAcceleration>;
+	using Force2 = Vector2<Force>;
 
 }
 #endif

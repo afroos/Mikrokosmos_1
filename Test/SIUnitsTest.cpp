@@ -1,4 +1,7 @@
 #include "catch.hpp"
+#include <iomanip>
+#include <iostream>
+#include <sstream>
 #include <Mikrokosmos/Physics/SIUnits.hpp>
 
 using namespace Mikrokosmos;
@@ -46,12 +49,73 @@ TEST_CASE("SIUnits: Quantities") {
 	REQUIRE(Power{ 15.0 } == Force{ 30.0 } * Length{ 1.0 } / Time{ 2.0 });
 }
 
+TEST_CASE("SIUnits: Vector quantities")
+{
+	LinearAcceleration2 a{ 3.5_mps2, -7.0_mps2 };
+	Mass m = 2.0_kg;
+	Force2 f1 = { 7.0_N, -14.0_N };
+	Force2 f2;
+
+	REQUIRE(f1 == m * a);
+
+	f2 = +f1;
+	REQUIRE(f2 == f1);
+
+	f2 = -f1;
+	REQUIRE(f2 == Force2{ -7.0_N, 14.0_N });
+
+	f2 += Force2{ Force{-1.0}, Force{-1.0} };
+	REQUIRE(f2 == Force2{ -8.0_N, 13.0_N });
+	
+	f2 -= Force2{ 0.5_N, 0.5_N };
+	REQUIRE(f2 == Force2{ -8.5_N, 12.5_N });
+	
+	//f2 *= Real2{ -1.0, 2.0 };
+	//REQUIRE(f2 == Force2{ 8.5_N, 25.0_N });
+	/*
+	f2 /= Force2{ 0.5, 1.0, -2.5 };
+	REQUIRE(f2 == Force2{ 1.0, 1.0, 3.0 });
+
+	f2 *= 3.0;
+	REQUIRE(f2 == Force2{ 3.0, 3.0, 9.0 });
+
+	f2 /= -1.5;
+	REQUIRE(f2 == Force2{ -2.0, -2.0, -6.0 });
+
+	f2 = f1 + f2;
+	REQUIRE(f2 == Force2{ 0.0, -1.0, 4.0 });
+
+	f2 = f1 - f2;
+	REQUIRE(f2 == Force2{ -2.0, -3.0, 2.0 });
+
+	f2 = f1 * 1.5;
+	REQUIRE(f2 == Force2{ -1.5, -3.0, 4.5 });
+
+	f2 = -1.5 * f1;
+	REQUIRE(f2 == Force2{ 1.5, 3.0, -4.5 });
+
+	f2 = f2 / 0.5;
+	REQUIRE(f2 == Force2{ 2.0, 2.0, 2.0 });
+
+	*/
+
+	REQUIRE(f1 * 2.0 == Force2{ 14.0_N, -28.0_N });
+}
+
 TEST_CASE("SIUnits: Storage size")
 {
 	REQUIRE(sizeof(Length{}) == sizeof(Real));
 	REQUIRE(sizeof(MomentOfInertia{}) == sizeof(Real));
 	REQUIRE(sizeof(Mass{} *LinearVelocity{}) == sizeof(Real));
 	REQUIRE(sizeof(67.0_m2) == sizeof(Real));
+}
+
+TEST_CASE("SIUnits: Ostream operator")
+{
+	LinearVelocity v{ -1.8 };
+	std::stringstream ss;
+	ss << std::fixed << std::setprecision(1) << v;
+	REQUIRE(ss.str() == "-1.8 m^1*kg^0*s^-1");
 }
 
 

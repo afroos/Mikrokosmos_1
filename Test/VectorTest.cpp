@@ -13,17 +13,17 @@ TEST_CASE("Vector: Storage size")
 
 TEST_CASE("Vector: Construction")
 {
-	Vector<Real, 0> v0;
-	Vector2<Real> v1;
-	Vector2<Real> v2{};
-	Vector2<Real> v3{ 0.0, 0.0 };
-	Vector<Real, 5> v4{ -3.0, -1.5, 0.0, 1.5, 3.0 };
-	Vector<Real, 5> v5(-3.0, -1.5, 0.0, 1.5, 3.0);
-	Vector<Real, 5> v6({ -3.0, -1.5, 0.0, 1.5, 3.0 });
-	Vector<Real, 5> v7 = { -3.0, -1.5, 0.0, 1.5, 3.0 };
-	Vector3<int> v8{ -1, 0, 1 };
-	auto v9{ v8 };
-	auto v10{ std::move(v8) };
+	constexpr Vector<Real, 0> v0;
+	constexpr Vector2<Real> v1;
+	constexpr Vector2<Real> v2{};
+	constexpr Vector2<Real> v3{ 0.0, 0.0 };
+	constexpr Vector<Real, 5> v4{ -3.0, -1.5, 0.0, 1.5, 3.0 };
+	constexpr Vector<Real, 5> v5(-3.0, -1.5, 0.0, 1.5, 3.0);
+	constexpr Vector<Real, 5> v6({ -3.0, -1.5, 0.0, 1.5, 3.0 });
+	constexpr Vector<Real, 5> v7 = { -3.0, -1.5, 0.0, 1.5, 3.0 };
+	constexpr Vector3<int> v8{ -1, 0, 1 };
+	constexpr auto v9{ v8 };
+	constexpr auto v10{ std::move(v8) };
 
 	REQUIRE(v1 == v2);
 	REQUIRE(v2 == v3);
@@ -55,7 +55,7 @@ TEST_CASE("Vector: Assignment")
 
 TEST_CASE("Vector: Element access")
 {
-	Real3 v1{ -1.0, -0.5, 1.0 };
+	constexpr Real3 v1{ -1.0, -0.5, 1.0 };
 	Real3 v2;
 	Real3 v3;
 
@@ -73,8 +73,8 @@ TEST_CASE("Vector: Element access")
 
 TEST_CASE("Vector: Arithmetic operators")
 {
-	Real3 v1{ -1.0, -2.0, 3.0 };
-	Real3 v2{ 1.0, 1.0, 1.0 };
+	constexpr Real3 v1{ -1.0, -2.0, 3.0 };
+	constexpr Real3 v2{ 1.0, 1.0, 1.0 };
 	Real3 v3;
 
 	v3 = +v1;
@@ -113,13 +113,13 @@ TEST_CASE("Vector: Arithmetic operators")
 	v3 = -1.5 * v1;
 	REQUIRE(v3 == Real3{ 1.5, 3.0, -4.5 });
 
-	v3 = v2 / 0.5;
-	REQUIRE(v3 == Real3{ 2.0, 2.0, 2.0 });
+	v3 = v1 / 0.5;
+	REQUIRE(v3 == Real3{ -2.0, -4.0, 6.0 });
 }
 
 TEST_CASE("Vector: Ostream operator")
 {
-	Real3 v{ -1.0, 0.0, 4.5 };
+	constexpr Real3 v{ -1.0, 0.0, 4.5 };
 	std::stringstream ss;
 	ss << std::fixed << std::setprecision(1) << v;
 	REQUIRE(ss.str() == "(-1.0, 0.0, 4.5)");
@@ -127,12 +127,12 @@ TEST_CASE("Vector: Ostream operator")
 
 TEST_CASE("Vector: Dot product")
 {
-	Real3 v1{ 1.0, 0.0, 0.0 };
-	Real3 v2{ 0.0, 1.0, 0.0 };
-	Real3 v3{ -1.0, 0.0, 0.0 };
-	Real3 v4{ 0.0, -1.0, 0.0 };
-	Real3 v5{ 1.0, 2.0, 3.0 };
-	Real3 v6{ 4.0, 5.0, 6.0 };
+	constexpr Real3 v1{ 1.0, 0.0, 0.0 };
+	constexpr Real3 v2{ 0.0, 1.0, 0.0 };
+	constexpr Real3 v3{ -1.0, 0.0, 0.0 };
+	constexpr Real3 v4{ 0.0, -1.0, 0.0 };
+	constexpr Real3 v5{ 1.0, 2.0, 3.0 };
+	constexpr Real3 v6{ 4.0, 5.0, 6.0 };
 
 	REQUIRE(dot(v1, v1) == Approx(1.0));
 	REQUIRE(dot(v1, v2) == Approx(0.0));
@@ -143,11 +143,11 @@ TEST_CASE("Vector: Dot product")
 
 TEST_CASE("Vector: Length")
 {
-	Real2 v1{ 0.0, 0.0 };
-	Real2 v2{ 1.0, 0.0 };
-	Real2 v3{ 0.0, 1.0 };
-	Real2 v4{ 3.0, 4.0 };
-	Real2 v5{ -3.0, -4.0 };
+	constexpr Real2 v1{ 0.0, 0.0 };
+	constexpr Real2 v2{ 1.0, 0.0 };
+	constexpr Real2 v3{ 0.0, 1.0 };
+	constexpr Real2 v4{ 3.0, 4.0 };
+	constexpr Real2 v5{ -3.0, -4.0 };
 
 	REQUIRE(length(v1) == Approx(0.0));
 	REQUIRE(length(v2) == Approx(1.0));
