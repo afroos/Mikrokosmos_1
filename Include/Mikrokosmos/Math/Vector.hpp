@@ -30,13 +30,13 @@ namespace Mikrokosmos
 		static constexpr Vector zero() noexcept { return Vector(); }
 
 		template<typename = std::enable_if_t<(N > 0)>>
-		static constexpr Vector unitX() noexcept { return unitAt(0); }
+		static constexpr Vector unitX() noexcept { return unit(0); }
 
 		template<typename = std::enable_if_t<(N > 1)>>
-		static constexpr Vector unitY() noexcept { return unitAt(1); }
+		static constexpr Vector unitY() noexcept { return unit(1); }
 
 		template<typename = std::enable_if_t<(N > 2)>>
-		static constexpr Vector unitZ() noexcept { return unitAt(2); }
+		static constexpr Vector unitZ() noexcept { return unit(2); }
 
 		constexpr ConstIterator begin() const noexcept { return coords.data(); }
 		constexpr Iterator begin() noexcept { return coords.data(); }
@@ -77,7 +77,7 @@ namespace Mikrokosmos
 	private:
 		std::array<T, N> coords{ };
 
-		static constexpr Vector unitAt(SizeType index) noexcept
+		static constexpr Vector unit(SizeType index) noexcept
 		{
 			Vector v;
 			v[index] = Real{ 1 };
