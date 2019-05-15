@@ -92,14 +92,14 @@ TEST_CASE("Vector: Arithmetic operators")
 	v3 *= Real3{ -1.0, 2.0, 3.0 };
 	REQUIRE(v3 == Real3{ 0.5, 1.0, -7.5 });
 
-	v3 /= Real3{ 0.5, 1.0, -2.5 };
-	REQUIRE(v3 == Real3{ 1.0, 1.0, 3.0 });
+	v3 *= 2.0;
+	REQUIRE(v3 == Real3{ 1.0, 2.0, -15.0});
 
-	v3 *= 3.0;
-	REQUIRE(v3 == Real3{ 3.0, 3.0, 9.0 });
+	v3 /= Real3{ 0.5, 1.0, -3.0 };
+	REQUIRE(v3 == Real3{ 2.0, 2.0, 5.0 });
 
-	v3 /= -1.5;
-	REQUIRE(v3 == Real3{ -2.0, -2.0, -6.0 });
+	v3 /= -0.5;
+	REQUIRE(v3 == Real3{ -4.0, -4.0, -10.0 });
 
 	v3 = v1 + v2;
 	REQUIRE(v3 == Real3{ 0.0, -1.0, 4.0 });
