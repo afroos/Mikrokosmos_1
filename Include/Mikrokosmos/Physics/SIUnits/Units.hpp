@@ -33,12 +33,13 @@ namespace Mikrokosmos
 	}
 
 	template <int M, int K, int S>
-	inline constexpr decltype(auto) operator/(const int lhs, const Unit<M, K, S>& rhs) noexcept
+	inline constexpr decltype(auto) operator/(const Real lhs, const Unit<M, K, S>& rhs) noexcept
 	{
-		assert(lhs == 1);
-		return Unit<0, 0, 0>{} / Unit<M, K, S>{};
+		assert(lhs == Real{1});
+		return adimensional / Unit<M, K, S>{};
 	}
 
+	constexpr auto adimensional = Unit<0, 0, 0>{};
 	constexpr auto meter    = Unit<1, 0, 0>{};
 	constexpr auto kilogram = Unit<0, 1, 0>{};
 	constexpr auto second   = Unit<0, 0, 1>{};

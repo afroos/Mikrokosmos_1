@@ -143,7 +143,7 @@ namespace Mikrokosmos
 	}
 
 	template <int M, int K, int S>
-	inline constexpr decltype(auto) operator/(const int lhs, const Quantity<Unit<M, K, S>>& rhs) noexcept
+	inline constexpr decltype(auto) operator/(const Real lhs, const Quantity<Unit<M, K, S>>& rhs) noexcept
 	{
 		assert(lhs == 1);
 		return Quantity<Unit<0, 0, 0>>{1.0} / rhs;
@@ -163,7 +163,7 @@ namespace Mikrokosmos
 
 	using Area = decltype(Length{} *Length{});
 	using AreaDensity = decltype(Mass{} / Area{});
-	using InverseMass = decltype(1 / Length{});
+	using InverseMass = decltype(1 / Mass{});
 	using MomentOfInertia = decltype(Mass{} * Area{});
 	using InverseMomentOfInertia = decltype(1 / MomentOfInertia{});
 	using Frequency	= decltype(1 / Time{});

@@ -1,4 +1,5 @@
 add_executable(UnitTests UnitTests.cpp 
+	BodyTest.cpp
 	SIUnitsTest.cpp
 	VectorTest.cpp
 )

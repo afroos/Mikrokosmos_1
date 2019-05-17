@@ -75,8 +75,8 @@ TEST_CASE("SIUnits: Quantity operators")
 	constexpr LinearVelocity v1 = 5.0_mps;
 	constexpr auto v2 = -14.0 * meter / second;
 	LinearVelocity v3;
-	Frequency f1 = 0.4_Hz;
-	Time t1 = 2.5_s;
+	constexpr Frequency f1 = 0.4_Hz;
+	constexpr Time t1 = 2.5_s;
 	LinearAcceleration a1;
 	constexpr LinearAcceleration a2{ 3.0 };
 
@@ -149,7 +149,6 @@ TEST_CASE("SIUnits: Vector quantities")
 	constexpr Force2 f1 = { 7.0_N, -14.0_N };
 	constexpr Force2 f2{ 1.0_N, 2.0_N };
 	Force2 f3;
-
 
 	f3 = +f1;
 	REQUIRE(f3 == f1);
