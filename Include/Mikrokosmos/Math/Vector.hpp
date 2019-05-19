@@ -85,25 +85,16 @@ namespace Mikrokosmos
 		}
 	};
 
-	template <typename T>
-	using Vector2 = Vector<T, 2>;
-
-	template <typename T>
-	using Vector3 = Vector<T, 3>;
-
-	using Real2 = Vector2<Real>;
-	using Real3 = Vector3<Real>;
-
 	template <typename T, std::size_t N>
-	inline constexpr bool operator==(const Vector<T, N>& lhs, const Vector<T, N>& rhs) noexcept
+	inline constexpr bool operator==(const Vector<T, N>& v1, const Vector<T, N>& v2) noexcept
 	{
-		return std::equal(lhs.begin(), lhs.end(), rhs.begin());
+		return std::equal(v1.begin(), v1.end(), v2.begin());
 	}
 
 	template <typename T, std::size_t N>
-	inline constexpr bool operator!=(const Vector<T, N>& lhs, const Vector<T, N>& rhs) noexcept
+	inline constexpr bool operator!=(const Vector<T, N>& v1, const Vector<T, N>& v2) noexcept
 	{
-		return !(rhs == lhs);
+		return !(v1 == v2);
 	}
 
 	template <typename T, std::size_t N>
@@ -121,91 +112,97 @@ namespace Mikrokosmos
 	}
 
 	template <typename T, std::size_t N>
-	inline constexpr Vector<T, N>& operator+=(Vector<T, N>& lhs, const Vector<T, N>& rhs) noexcept
+	inline constexpr Vector<T, N>& operator+=(Vector<T, N>& v1, const Vector<T, N>& v2) noexcept
 	{
-		std::transform(lhs.begin(), lhs.end(), rhs.begin(), lhs.begin(), std::plus<T>());
-		return lhs;
+		std::transform(v1.begin(), v1.end(), v2.begin(), v1.begin(), std::plus<T>());
+		return v1;
 	}
 
 	template <typename T, std::size_t N>
-	inline constexpr Vector<T, N>& operator-=(Vector<T, N>& lhs, const Vector<T, N>& rhs) noexcept
+	inline constexpr Vector<T, N>& operator-=(Vector<T, N>& v1, const Vector<T, N>& v2) noexcept
 	{
-		std::transform(lhs.begin(), lhs.end(), rhs.begin(), lhs.begin(), std::minus<T>());
-		return lhs;
+		std::transform(v1.begin(), v1.end(), v2.begin(), v1.begin(), std::minus<T>());
+		return v1;
 	}
 
 	template <typename T1, typename T2, std::size_t N, typename = std::enable_if_t < std::is_same < T1, decltype(T1{} *T2{}) > ::value >>
-	inline constexpr Vector<T1, N>& operator*=(Vector<T1, N>& lhs, const Vector<T2, N>& rhs) noexcept
+	inline constexpr Vector<T1, N>& operator*=(Vector<T1, N>& v1, const Vector<T2, N>& v2) noexcept
 	{
-		for (size_t i = 0; i < N; ++i) {
-			lhs[i] *= rhs[i];
+		for (size_t i = 0; i < N; ++i) 
+		{
+			v1[i] *= v2[i];
 		}
-		return lhs;
+		return v1;
 	}
 
 	template <typename T1, typename T2, std::size_t N, typename = std::enable_if_t < std::is_same < T1, decltype(T1{} *T2{}) > ::value >>
-		inline constexpr Vector<T1, N> operator*=(Vector<T1, N>& lhs, const T2 rhs) noexcept
+		inline constexpr Vector<T1, N> operator*=(Vector<T1, N>& v1, const T2 s) noexcept
 	{
-		for (size_t i = 0; i < N; ++i) {
-			lhs[i] *= rhs;
+		for (size_t i = 0; i < N; ++i) 
+		{
+			v1[i] *= s;
 		}
-		return lhs;
+		return v1;
 	}
 
 	template <typename T1, typename T2, std::size_t N, typename = std::enable_if_t < std::is_same < T1, decltype(T1{} / T2{}) > ::value >>
-	inline constexpr Vector<T1, N>& operator/=(Vector<T1, N>& lhs, const Vector<T2, N>& rhs) noexcept
+	inline constexpr Vector<T1, N>& operator/=(Vector<T1, N>& v1, const Vector<T2, N>& v2) noexcept
 	{
-		for (size_t i = 0; i < N; ++i) {
-			lhs[i] /= rhs[i];
+		for (size_t i = 0; i < N; ++i) 
+		{
+			v1[i] /= v2[i];
 		}
-		return lhs;
+		return v1;
 	}
 
 	template <typename T1, typename T2, std::size_t N, typename = std::enable_if_t < std::is_same < T1, decltype(T1{} / T2{}) > ::value >>
-	inline constexpr Vector<T1, N> operator/=(Vector<T1, N>& lhs, const T2 rhs) noexcept
+	inline constexpr Vector<T1, N> operator/=(Vector<T1, N>& v, const T2 s) noexcept
 	{
-		for (size_t i = 0; i < N; ++i) {
-			lhs[i] /= rhs;
+		for (size_t i = 0; i < N; ++i) 
+		{
+			v[i] /= s;
 		}
-		return lhs;
+		return v;
 	}
 
 	template <typename T, std::size_t N>
-	inline constexpr Vector<T, N> operator+(const Vector<T, N>& lhs, const Vector<T, N>& rhs) noexcept
+	inline constexpr Vector<T, N> operator+(const Vector<T, N>& v1, const Vector<T, N>& v2) noexcept
 	{
-		auto result{ lhs };
-		return result += rhs;
+		auto result{ v1 };
+		return result += v2;
 	}
 
 	template <typename T, std::size_t N>
-	inline constexpr Vector<T, N> operator-(const Vector<T, N>& lhs, const Vector<T, N>& rhs) noexcept
+	inline constexpr Vector<T, N> operator-(const Vector<T, N>& v1, const Vector<T, N>& v2) noexcept
 	{
-		auto result{ lhs };
-		return result -= rhs;
+		auto result{ v1 };
+		return result -= v2;
 	}
 
 	template <typename T1, typename T2, typename T3 = decltype(T1{} *T2{}), std::size_t N >
-	inline constexpr Vector<T3, N> operator*(const Vector<T1, N>& lhs, const T2 rhs) noexcept
+	inline constexpr Vector<T3, N> operator*(const Vector<T1, N>& v, const T2 s) noexcept
 	{
 		Vector<T3, N> result;
-		for (size_t i = 0; i < N; ++i) {
-			result[i] = lhs[i] * rhs;
+		for (size_t i = 0; i < N; ++i) 
+		{
+			result[i] = v[i] * s;
 		}
 		return result;
 	}
 
 	template <typename T1, typename T2, typename T3 = decltype(T1{} *T2{}), std::size_t N >
-	inline constexpr Vector<T3, N> operator*(const T1 lhs, const Vector<T2, N>& rhs) noexcept
+	inline constexpr Vector<T3, N> operator*(const T1 s, const Vector<T2, N>& v2) noexcept
 	{
-		return rhs * lhs;
+		return v2 * s;
 	}
 
 	template <typename T1, typename T2, typename T3 = decltype(T1{} / T2{}), std::size_t N>
-	inline constexpr Vector<T3, N> operator/(const Vector<T1, N>& lhs, const T2 rhs) noexcept
+	inline constexpr Vector<T3, N> operator/(const Vector<T1, N>& v, const T2 s) noexcept
 	{
 		Vector<T3, N> result;
-		for (size_t i = 0; i < N; ++i) {
-			result[i] = lhs[i] / rhs;
+		for (size_t i = 0; i < N; ++i) 
+		{
+			result[i] = v[i] / s;
 		}
 		return result;
 	}
@@ -220,10 +217,15 @@ namespace Mikrokosmos
 		return os;
 	}
 
-	template <typename T, std::size_t N>
-	inline constexpr T dot(const Vector<T, N>& lhs, const Vector<T, N>& rhs) noexcept
+	template <typename T1, typename T2, typename T3 = decltype(T1{} * T2{}), std::size_t N>
+	inline constexpr T3 dot(const Vector<T1, N>& v1, const Vector<T2, N>& v2) noexcept
 	{
-		return static_cast<T>(std::inner_product(lhs.begin(), lhs.end(), rhs.begin(), 0.0));
+		auto result = T3{};
+		for (size_t i = 0; i < N; ++i)
+		{
+			result += v1[i] * v2[i];
+		}
+		return result;
 	}
 
 	template <typename T, std::size_t N>

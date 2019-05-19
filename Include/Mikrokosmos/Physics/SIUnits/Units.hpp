@@ -9,33 +9,33 @@ namespace Mikrokosmos
 	struct Unit { };
 
 	template <int M1, int K1, int S1, int M2, int K2, int S2>
-	inline constexpr bool operator==(const Unit<M1, K1, S1>& lhs, const Unit<M2, K2, S2>& rhs) noexcept
+	inline constexpr bool operator==(const Unit<M1, K1, S1>& u1, const Unit<M2, K2, S2>& u2) noexcept
 	{
 		return (M1 == M2 && K1 == K2 && S1 == S2);
 	}
 
 	template <int M1, int K1, int S1, int M2, int K2, int S2>
-	inline constexpr bool operator!=(const Unit<M1, K1, S1>& lhs, const Unit<M2, K2, S2>& rhs) noexcept
+	inline constexpr bool operator!=(const Unit<M1, K1, S1>& u1, const Unit<M2, K2, S2>& u2) noexcept
 	{
-		return !(lhs == rhs);
+		return !(u1 == u2);
 	}
 
 	template <int M1, int K1, int S1, int M2, int K2, int S2>
-	inline constexpr decltype(auto) operator*(const Unit<M1, K1, S1>& lhs, const Unit<M2, K2, S2>& rhs) noexcept
+	inline constexpr decltype(auto) operator*(const Unit<M1, K1, S1>& u1, const Unit<M2, K2, S2>& u2) noexcept
 	{
 		return Unit<M1 + M2, K1 + K2, S1 + S2>{};
 	}
 
 	template <int M1, int K1, int S1, int M2, int K2, int S2>
-	inline constexpr decltype(auto) operator/(const Unit<M1, K1, S1>& lhs, const Unit<M2, K2, S2>& rhs) noexcept
+	inline constexpr decltype(auto) operator/(const Unit<M1, K1, S1>& u1, const Unit<M2, K2, S2>& u2) noexcept
 	{
 		return Unit<M1 - M2, K1 - K2, S1 - S2>{};
 	}
 
 	template <int M, int K, int S>
-	inline constexpr decltype(auto) operator/(const Real lhs, const Unit<M, K, S>& rhs) noexcept
+	inline constexpr decltype(auto) operator/(const Real s, const Unit<M, K, S>& u) noexcept
 	{
-		assert(lhs == Real{1});
+		assert(s == Real{1});
 		return adimensional / Unit<M, K, S>{};
 	}
 

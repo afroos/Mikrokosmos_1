@@ -3,6 +3,8 @@
 #include <iostream>
 #include <sstream>
 #include <Mikrokosmos/Math/Vector.hpp>
+#include <Mikrokosmos/Math/Vector2.hpp>
+#include <Mikrokosmos/Math/Vector3.hpp>
 
 using namespace Mikrokosmos;
 
@@ -160,4 +162,38 @@ TEST_CASE("Vector: Length")
 	REQUIRE(lengthSquared(v2) == lengthSquared(v3));
 	REQUIRE(lengthSquared(v4) == Approx(25.0));
 	REQUIRE(lengthSquared(v4) == lengthSquared(v5));
+}
+
+TEST_CASE("Vector2: Perp operator")
+{
+	constexpr Real2 v1{ 1.0, 0.0 };
+	constexpr Real2 v2{ 0.0, 1.0 };
+	constexpr Real2 v3{ -1.0, 0.0 };
+	constexpr Real2 v4{ 0.0, -1.0 };
+	constexpr Real2 v5{ 1.0, 1.0 };
+	constexpr Real2 v6{ -1.0, 1.0 };
+
+	REQUIRE(perp(v1) == v2);
+	REQUIRE(perp(v2) == v3);
+	REQUIRE(perp(v3) == v4);
+	REQUIRE(perp(v4) == v1);
+	REQUIRE(perp(v5) == v6);
+}
+
+TEST_CASE("Vector2: Perp dot operator")
+{
+	constexpr Real2 v1{ 1.0, 0.0 };
+	constexpr Real2 v2{ 0.0, 1.0 };
+	constexpr Real2 v3{ -1.0, 0.0 };
+	constexpr Real2 v4{ 0.0, -1.0 };
+	constexpr Real2 v5{ 1.0, 1.0 };
+	constexpr Real2 v6{ -1.0, 1.0 };
+
+	REQUIRE(perpDot(v1, v1) == Real{ 0 });
+	REQUIRE(perpDot(v1, v2) == Real{ 1 });
+	REQUIRE(perpDot(v1, v3) == Real{ 0 });
+	REQUIRE(perpDot(v1, v4) == Real{ -1 });
+	REQUIRE(perpDot(v5, v6) == Approx(2.0));
+	REQUIRE(perpDot(v5, v6) == -perpDot(v6, v5));
+	REQUIRE(perpDot(v1, v2 + v3) == perpDot(v1, v2) + perpDot(v1, v3));
 }

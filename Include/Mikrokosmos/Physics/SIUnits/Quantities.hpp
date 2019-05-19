@@ -4,7 +4,7 @@
 #include <Mikrokosmos/Common/Real.hpp>
 #include <Mikrokosmos/Math/Constants.hpp>
 #include <Mikrokosmos/Math/Constants.hpp>
-#include <Mikrokosmos/Math/Vector.hpp>
+#include <Mikrokosmos/Math/Vector2.hpp>
 #include <Mikrokosmos/Physics/SIUnits/Prefixes.hpp>
 #include <Mikrokosmos/Physics/SIUnits/Units.hpp>
 
@@ -17,15 +17,15 @@ namespace Mikrokosmos
 	};
 
 	template <int M1, int K1, int S1, int M2, int K2, int S2>
-	inline constexpr bool operator==(const Quantity<Unit<M1, K1, S1>>& lhs, const Quantity<Unit<M2, K2, S2>>& rhs) noexcept
+	inline constexpr bool operator==(const Quantity<Unit<M1, K1, S1>>& q1, const Quantity<Unit<M2, K2, S2>>& q2) noexcept
 	{
-		return (lhs.magnitude == rhs.magnitude) && (Unit<M1, K1, S1>{} == Unit<M2, K2, S2>{});
+		return (q1.magnitude == q2.magnitude) && (Unit<M1, K1, S1>{} == Unit<M2, K2, S2>{});
 	}
 
 	template <int M1, int K1, int S1, int M2, int K2, int S2>
-	inline constexpr bool operator!=(const Quantity<Unit<M1, K1, S1>>& lhs, const Quantity<Unit<M2, K2, S2>>& rhs) noexcept
+	inline constexpr bool operator!=(const Quantity<Unit<M1, K1, S1>>& q1, const Quantity<Unit<M2, K2, S2>>& q2) noexcept
 	{
-		return !(lhs == rhs);
+		return !(q1 == q2);
 	}
 
 	template <int M, int K, int S>
@@ -41,112 +41,112 @@ namespace Mikrokosmos
 	}
 
 	template <int M, int K, int S>
-	inline constexpr decltype(auto) operator+=(Quantity<Unit<M, K, S>>& lhs, const Quantity<Unit<M, K, S>>& rhs) noexcept
+	inline constexpr decltype(auto) operator+=(Quantity<Unit<M, K, S>>& q1, const Quantity<Unit<M, K, S>>& q2) noexcept
 	{
-		lhs.magnitude += rhs.magnitude;
-		return lhs;
+		q1.magnitude += q2.magnitude;
+		return q1;
 	}
 
 	template <int M, int K, int S>
-	inline constexpr decltype(auto) operator-=(Quantity<Unit<M, K, S>>& lhs, const Quantity<Unit<M, K, S>>& rhs) noexcept
+	inline constexpr decltype(auto) operator-=(Quantity<Unit<M, K, S>>& q1, const Quantity<Unit<M, K, S>>& q2) noexcept
 	{
-		lhs.magnitude -= rhs.magnitude;
-		return lhs;
+		q1.magnitude -= q2.magnitude;
+		return q1;
 	}
 
 	template <int M, int K, int S>
-	inline constexpr decltype(auto) operator*=(Quantity<Unit<M, K, S>>& lhs, const Real rhs) noexcept
+	inline constexpr decltype(auto) operator*=(Quantity<Unit<M, K, S>>& q, const Real s) noexcept
 	{
-		lhs.magnitude *= rhs;
-		return lhs;
+		q.magnitude *= s;
+		return q;
 	}
 
 	template <int M, int K, int S>
-	inline constexpr decltype(auto) operator/=(Quantity<Unit<M, K, S>>& lhs, const Real rhs) noexcept
+	inline constexpr decltype(auto) operator/=(Quantity<Unit<M, K, S>>& q, const Real s) noexcept
 	{
-		lhs.magnitude /= rhs;
-		return lhs;
+		q.magnitude /= s;
+		return q;
 	}
 
 	template <int M, int K, int S>
-	inline constexpr decltype(auto) operator+(const Quantity<Unit<M, K, S>>& lhs, const Quantity<Unit<M, K, S>>& rhs) noexcept
+	inline constexpr decltype(auto) operator+(const Quantity<Unit<M, K, S>>& q1, const Quantity<Unit<M, K, S>>& q2) noexcept
 	{
-		auto result{ lhs };
-		result += rhs;
+		auto result{ q1 };
+		result += q2;
 		return result;
 	}
 
 	template <int M, int K, int S>
-	inline constexpr decltype(auto) operator-(const Quantity<Unit<M, K, S>>& lhs, const Quantity<Unit<M, K, S>>& rhs) noexcept
+	inline constexpr decltype(auto) operator-(const Quantity<Unit<M, K, S>>& q1, const Quantity<Unit<M, K, S>>& q2) noexcept
 	{
-		auto result{ lhs };
-		result -= rhs;
+		auto result{ q1 };
+		result -= q2;
 		return result;
 	}
 
 	template <int M1, int K1, int S1, int M2, int K2, int S2>
-	inline constexpr decltype(auto) operator*(const Quantity<Unit<M1, K1, S1>>& lhs, const Quantity<Unit<M2, K2, S2>>& rhs) noexcept
+	inline constexpr decltype(auto) operator*(const Quantity<Unit<M1, K1, S1>>& q1, const Quantity<Unit<M2, K2, S2>>& q2) noexcept
 	{
-		return Quantity<Unit<M1 + M2, K1 + K2, S1 + S2>>{ lhs.magnitude* rhs.magnitude };
+		return Quantity<Unit<M1 + M2, K1 + K2, S1 + S2>>{ q1.magnitude* q2.magnitude };
 	}
 
 	template <int M, int K, int S>
-	inline constexpr decltype(auto) operator*(const Quantity<Unit<M, K, S>>& lhs, const Real rhs) noexcept
+	inline constexpr decltype(auto) operator*(const Quantity<Unit<M, K, S>>& q, const Real s) noexcept
 	{
-		auto result{ lhs };
-		result *= rhs;
+		auto result{ q };
+		result *= s;
 		return result;
 	}
 
 	template <int M, int K, int S>
-	inline constexpr decltype(auto) operator*(const Real lhs, const Quantity<Unit<M, K, S>>& rhs) noexcept
+	inline constexpr decltype(auto) operator*(const Real s, const Quantity<Unit<M, K, S>>& q) noexcept
 	{
-		return rhs * lhs;
+		return q * s;
 	}
 
 	template <int M, int K, int S>
-	inline constexpr decltype(auto) operator*(const Real lhs, const Unit<M, K, S>& rhs) noexcept
+	inline constexpr decltype(auto) operator*(const Real s, const Unit<M, K, S>& u) noexcept
 	{
-		return Quantity<Unit<M, K, S>>{ lhs };
+		return Quantity<Unit<M, K, S>>{ s };
 	}
 
 	template <int M, int K, int S>
-	inline constexpr decltype(auto) operator*(const Unit<M, K, S>& lhs, const Real rhs) noexcept
+	inline constexpr decltype(auto) operator*(const Unit<M, K, S>& u, const Real s) noexcept
 	{
-		return rhs * lhs;
+		return s * u;
 	}
 
 	template <int M1, int K1, int S1, int M2, int K2, int S2>
-	constexpr decltype(auto) operator*(const Quantity<Unit<M1, K1, S1>>& lhs, const Unit<M2, K2, S2>& rhs) noexcept
+	constexpr decltype(auto) operator*(const Quantity<Unit<M1, K1, S1>>& q, const Unit<M2, K2, S2>& u) noexcept
 	{
-		return Quantity<Unit<M1 + M2, K1 + K2, S1 + S2>>{ lhs.magnitude };
+		return Quantity<Unit<M1 + M2, K1 + K2, S1 + S2>>{ q.magnitude };
 	}
 
 	template <int M1, int K1, int S1, int M2, int K2, int S2>
-	inline constexpr decltype(auto) operator/(const Quantity<Unit<M1, K1, S1>>& lhs, const Quantity<Unit<M2, K2, S2>>& rhs) noexcept
+	inline constexpr decltype(auto) operator/(const Quantity<Unit<M1, K1, S1>>& q1, const Quantity<Unit<M2, K2, S2>>& q2) noexcept
 	{
-		return Quantity<Unit<M1 - M2, K1 - K2, S1 - S2>>{ lhs.magnitude / rhs.magnitude };
+		return Quantity<Unit<M1 - M2, K1 - K2, S1 - S2>>{ q1.magnitude / q2.magnitude };
 	}
 
 	template <int M, int K, int S>
-	inline constexpr decltype(auto) operator/(const Quantity<Unit<M, K, S>>& lhs, const Real rhs) noexcept
+	inline constexpr decltype(auto) operator/(const Quantity<Unit<M, K, S>>& q, const Real s) noexcept
 	{
-		auto result{ lhs };
-		result /= rhs;
+		auto result{ q };
+		result /= s;
 		return result;
 	}
 
 	template <int M1, int K1, int S1, int M2, int K2, int S2>
-	inline constexpr decltype(auto) operator/(const Quantity<Unit<M1, K1, S1>>& lhs, const Unit<M2, K2, S2>& rhs) noexcept
+	inline constexpr decltype(auto) operator/(const Quantity<Unit<M1, K1, S1>>& q, const Unit<M2, K2, S2>& u) noexcept
 	{
-		return Quantity<Unit<M1 - M2, K1 - K2, S1 - S2>>{ lhs.magnitude };
+		return Quantity<Unit<M1 - M2, K1 - K2, S1 - S2>>{ q.magnitude };
 	}
 
 	template <int M, int K, int S>
-	inline constexpr decltype(auto) operator/(const Real lhs, const Quantity<Unit<M, K, S>>& rhs) noexcept
+	inline constexpr decltype(auto) operator/(const Real s, const Quantity<Unit<M, K, S>>& q) noexcept
 	{
-		assert(lhs == 1);
-		return Quantity<Unit<0, 0, 0>>{1.0} / rhs;
+		assert(s == 1);
+		return Quantity<Unit<0, 0, 0>>{1.0} / q;
 	}
 
 	template <int M, int K, int S>
