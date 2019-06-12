@@ -10,6 +10,8 @@ class Body
 {
 public:
 	
+
+
 	void setMass(Mass mass) noexcept;
 	//void setMomentOfInertia(MomentOfInertia inertia) noexcept;
 
@@ -27,11 +29,11 @@ public:
 
 	LinearVelocity2 linearVelocity() const noexcept;
 	AngularVelocity angularVelocity() const noexcept;
-	
-	//bool isAwake() const noexcept;
+
+	void integrate(Time duration);
 
 	/*
-	void integrate(Time duration);
+	bool isAwake() const noexcept;
 
 	void setPosition(LinearPosition2 p, AngularPosition theta) noexcept;
 	void setVelocity(LinearVelocity2 v, AngularVelocity omega) noexcept;
@@ -60,76 +62,6 @@ private:
 	//bool isAwake_{ true };
 
 };
-
-inline void Body::setMass(Mass mass) noexcept
-{
-	assert(mass.magnitude > Real{ 0 });
-	inverseMass_ = Real{ 1 } / mass;
-}
-
-inline Mass Body::mass() const noexcept
-{
-	if (inverseMass_ == InverseMass{ 0 }) 
-	{
-		return Mass{ std::numeric_limits<Real>::max() };
-	} 
-	else 
-	{
-		return Real{ 1 } / inverseMass_;
-	}
-}
-
-inline MomentOfInertia Body::momentOfInertia() const noexcept
-{
-	return Real{ 1 } / inverseMomentOfInertia_;
-}
-
-inline Length2 Body::centerOfMass() const noexcept
-{
-	return linearPosition_;
-}
-
-inline void Body::applyForce(Force2& force) noexcept
-{
-	applyForceAtPoint(force, centerOfMass());
-}
-
-inline void Body::applyForceAtPoint(Force2& force, Length2& point) noexcept
-{
-	const auto positionVector = point - centerOfMass();
-	totalForce_ += force;
-	totalTorque_ += perpDot(positionVector, force);
-}
-
-inline void Body::applyTorque(Torque& torque) noexcept
-{
-	totalTorque_ += torque;
-}
-
-inline Length2 Body::linearPosition() const noexcept
-{
-	return linearPosition_;
-}
-
-inline Angle Body::angularPosition() const noexcept
-{
-	return angularPosition_;
-}
-
-inline LinearVelocity2 Body::linearVelocity() const noexcept
-{
-	return linearVelocity_;
-}
-
-inline AngularVelocity Body::angularVelocity() const noexcept
-{
-	return angularVelocity_;
-}
-
-//inline bool Body::isAwake() const noexcept
-//{
-//	return isAwake_;
-//}
 
 }
 

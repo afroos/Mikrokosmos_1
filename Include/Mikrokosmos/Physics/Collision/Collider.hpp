@@ -1,0 +1,15 @@
+#ifndef MIKROKOSMOS_PHYSICS_COLLISION_COLLIDER_HPP
+#define MIKROKOSMOS_MATH_GEOMEMIKROKOSMOS_PHYSICS_COLLISION_COLLIDER_HPPTRY_SHAPE_HPP
+
+namespace Mikrokosmos
+{
+	class Collider
+	{
+	public:
+
+	private:
+
+	};
+}
+
+#endif

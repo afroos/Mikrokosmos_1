@@ -1,7 +1,7 @@
-#ifndef MIKROKOSMOS_MATH_VECTOR2_HPP
-#define MIKROKOSMOS_MATH_VECTOR2_HPP
+#ifndef MIKROKOSMOS_MATH_ALGEBRA_VECTOR2_HPP
+#define MIKROKOSMOS_MATH_ALGEBRA_VECTOR2_HPP
 
-#include <Mikrokosmos/Math/Vector.hpp>
+#include <Mikrokosmos/Math/Algebra/Vector.hpp>
 
 namespace Mikrokosmos
 {

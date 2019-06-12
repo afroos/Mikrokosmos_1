@@ -4,7 +4,7 @@
 #include <Mikrokosmos/Common/Real.hpp>
 #include <Mikrokosmos/Math/Constants.hpp>
 #include <Mikrokosmos/Math/Constants.hpp>
-#include <Mikrokosmos/Math/Vector2.hpp>
+#include <Mikrokosmos/Math/Algebra/Vector2.hpp>
 #include <Mikrokosmos/Physics/SIUnits/Prefixes.hpp>
 #include <Mikrokosmos/Physics/SIUnits/Units.hpp>
 

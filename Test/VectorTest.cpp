@@ -2,9 +2,9 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
-#include <Mikrokosmos/Math/Vector.hpp>
-#include <Mikrokosmos/Math/Vector2.hpp>
-#include <Mikrokosmos/Math/Vector3.hpp>
+#include <Mikrokosmos/Math/Algebra/Vector.hpp>
+#include <Mikrokosmos/Math/Algebra/Vector2.hpp>
+#include <Mikrokosmos/Math/Algebra/Vector3.hpp>
 
 using namespace Mikrokosmos;
 
