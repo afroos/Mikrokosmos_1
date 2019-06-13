@@ -9,10 +9,18 @@ namespace Mikrokosmos
 	{
 	public:
 
+		Material() = delete;
+		Material(AreaDensity density, Real restitution, Real staticFriction, Real dynamicFriction) noexcept;
+
 		AreaDensity density() const noexcept;
 		Real restitution() const noexcept;
 		Real staticFriction() const noexcept;
 		Real dynamicFriction() const noexcept;
+
+		void setDensity(AreaDensity density) noexcept;
+		void setRestitution(Real restitution) noexcept;
+		void setStaticFriction(Real staticFriction) noexcept;
+		void setDynamicFriction(Real dynamicFriction) noexcept;
 
 	private:
 

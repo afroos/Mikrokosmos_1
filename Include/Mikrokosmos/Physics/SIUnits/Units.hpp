@@ -2,6 +2,7 @@
 #define MIKROKOSMOS_PHYSICS_SIUNITS_UNITS_HPP
 
 #include <Mikrokosmos/Common/Real.hpp>
+#include <cassert>
 
 namespace Mikrokosmos
 {   

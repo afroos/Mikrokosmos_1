@@ -1,6 +1,8 @@
 #ifndef MIKROKOSMOS_PHYSICS_SIUNITS_QUANTITIES_HPP
 #define MIKROKOSMOS_PHYSICS_SIUNITS_QUANTITIES_HPP
 
+#include <cassert>
+
 #include <Mikrokosmos/Common/Real.hpp>
 #include <Mikrokosmos/Math/Constants.hpp>
 #include <Mikrokosmos/Math/Constants.hpp>

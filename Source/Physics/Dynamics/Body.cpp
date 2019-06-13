@@ -2,7 +2,7 @@
 
 namespace Mikrokosmos 
 {
-
+	/*
 void Body::setMass(Mass mass) noexcept
 {
 	assert(mass.magnitude > Real{ 0 });
@@ -86,8 +86,6 @@ Body::integrate(Time duration)
 
 	totalForce_ = 0.0_N;
 	totalTorque_ = 0.0_Nm;
-}
+}*/
 
 }
-
-#endif

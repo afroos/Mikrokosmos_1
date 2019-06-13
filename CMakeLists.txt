@@ -13,9 +13,10 @@ option(MIKROKOSMOS_INSTALL_DOC "Install Mikrokosmos documentation." OFF)
 option(MIKROKOSMOS_ENABLE_COVERAGE "Enable Mikrokosmos code coverage generation." OFF)
 
 if(MIKROKOSMOS_BUILD_STATIC_LIBS)
-	add_library(Mikrokosmos INTERFACE)
-	target_include_directories(Mikrokosmos INTERFACE Include)
+	add_library(Mikrokosmos STATIC)
+	target_include_directories(Mikrokosmos PUBLIC Include)
 	target_compile_features(Mikrokosmos INTERFACE cxx_std_17)
+	add_subdirectory(Source)
 endif(MIKROKOSMOS_BUILD_STATIC_LIBS)
 
 if(MIKROKOSMOS_BUILD_EXAMPLE)

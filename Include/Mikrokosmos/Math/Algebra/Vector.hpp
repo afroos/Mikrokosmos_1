@@ -1,10 +1,10 @@
 #ifndef MIKROKOSMOS_MATH_ALGEBRA_VECTOR_HPP
 #define MIKROKOSMOS_MATH_ALGEBRA_VECTOR_HPP
 
+#include <Mikrokosmos/Common/Real.hpp>
 #include <algorithm>
 #include <array>
 #include <numeric>
-#include <Mikrokosmos/Common/Real.hpp>
 
 namespace Mikrokosmos
 {
