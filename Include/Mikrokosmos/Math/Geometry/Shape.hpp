@@ -7,6 +7,15 @@ namespace Mikrokosmos
 	{
 	public:
 
+		Shape(const Shape&) = delete;
+		Shape& operator=(const Shape&) = delete;
+
+		virtual ~Shape() = 0;
+
+	protected:
+
+		Shape();
+
 	private:
 
 	};

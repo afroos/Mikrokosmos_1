@@ -1,1 +1,3 @@
-target_sources(Mikrokosmos PRIVATE Circle.cpp)
+target_sources(Mikrokosmos PRIVATE 
+	Shape.cpp
+	Circle.cpp)

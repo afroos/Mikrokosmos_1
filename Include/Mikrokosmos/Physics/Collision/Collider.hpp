@@ -1,5 +1,9 @@
 #ifndef MIKROKOSMOS_PHYSICS_COLLISION_COLLIDER_HPP
-#define MIKROKOSMOS_MATH_GEOMEMIKROKOSMOS_PHYSICS_COLLISION_COLLIDER_HPPTRY_SHAPE_HPP
+#define MIKROKOSMOS_PHYSICS_COLLISION_COLLIDER_HPP
+
+#include <memory>
+
+class Shape;
 
 namespace Mikrokosmos
 {
@@ -8,7 +12,7 @@ namespace Mikrokosmos
 	public:
 
 	private:
-
+		std::shared_ptr<Shape> shape;
 	};
 }
 
