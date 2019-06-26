@@ -6,12 +6,12 @@
 namespace Mikrokosmos
 {
 
-Material::Material(AreaDensity density, Real restitution, Real staticFriction, Real dynamicFriction) noexcept
+Material::Material(MaterialParameters parameters) noexcept
 {
-	setDensity(density);
-	setRestitution(restitution);
-	setStaticFriction(staticFriction);
-	setDynamicFriction(dynamicFriction);
+	setDensity(parameters.density_);
+	setRestitution(parameters.restitution_);
+	setStaticFriction(parameters.staticFriction_);
+	setDynamicFriction(parameters.dynamicFriction_);
 }
 
 AreaDensity Material::density() const noexcept
@@ -36,7 +36,7 @@ Real Material::dynamicFriction() const noexcept
 
 void Material::setDensity(AreaDensity density) noexcept
 {
-	assert(std::isnormal(density.magnitude));
+	assert(std::isfinite(density.magnitude) && density.magnitude >= 0.0);
 	density_ = density;
 }
 
@@ -56,6 +56,14 @@ void Material::setDynamicFriction(Real dynamicFriction) noexcept
 {
 	assert(std::isfinite(dynamicFriction) && dynamicFriction >= 0.0 && dynamicFriction <= staticFriction_);
 	dynamicFriction_ = dynamicFriction;
+}
+
+bool operator==(const Material& m1, const Material& m2) noexcept
+{
+	return (m1.density() == m2.density() &&
+			m1.restitution() == m2.restitution() &&
+			m1.staticFriction() == m2.staticFriction() &&
+			m1.dynamicFriction() == m2.dynamicFriction());	
 }
 
 }

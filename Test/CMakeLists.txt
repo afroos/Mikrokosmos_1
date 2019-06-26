@@ -2,6 +2,7 @@ add_executable(UnitTests UnitTests.cpp)
 
 target_sources(UnitTests PRIVATE 
 	BodyTest.cpp
+	BoxTest.cpp
 	CircleTest.cpp
 	ColliderTest.cpp
 	MaterialTest.cpp

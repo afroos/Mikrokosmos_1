@@ -4,7 +4,7 @@ project(Mikrokosmos VERSION 0.0.1 LANGUAGES CXX)
 
 option(MIKROKOSMOS_BUILD_STATIC_LIBS "Build Mikrokosmos static libraries." ON)
 option(MIKROKOSMOS_BUILD_SHARED_LIBS "Build Mikrokosmos shared libraries." OFF)
-option(MIKROKOSMOS_BUILD_EXAMPLE "Build Mikrokosmos example applications." OFF)
+option(MIKROKOSMOS_BUILD_EXAMPLE "Build Mikrokosmos example applications." ON)
 option(MIKROKOSMOS_BUILD_TESTBED "Build Mikrokosmos testbed application." OFF)
 option(MIKROKOSMOS_BUILD_TEST "Build Mikrokosmos unit test application." ON)
 option(MIKROKOSMOS_BUILD_BENCHMARK "Build Mikrokosmos benchmark application." OFF)

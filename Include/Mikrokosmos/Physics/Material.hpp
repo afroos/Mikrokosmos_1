@@ -1,6 +1,7 @@
 #ifndef MIKROKOSMOS_PHYSICS_MATERIAL_HPP
 #define MIKROKOSMOS_PHYSICS_MATERIAL_HPP
 
+#include <Mikrokosmos/Physics/MaterialParameters.hpp>
 #include <Mikrokosmos/Physics/SIUnits.hpp>
 
 namespace Mikrokosmos
@@ -9,8 +10,8 @@ namespace Mikrokosmos
 	{
 	public:
 
-		Material() = delete;
-		Material(AreaDensity density, Real restitution, Real staticFriction, Real dynamicFriction) noexcept;
+		Material() = default;
+		Material(MaterialParameters parameters) noexcept;
 
 		AreaDensity density() const noexcept;
 		Real restitution() const noexcept;
@@ -24,11 +25,13 @@ namespace Mikrokosmos
 
 	private:
 
-		AreaDensity density_{ 1.0_kgpm2 };
+		AreaDensity density_{ 0.0_kgpm2 };
 		Real restitution_{ 0.0 };
-		Real staticFriction_{ 0.0 };
-		Real dynamicFriction_{ 0.0 };
+		Real staticFriction_{ 0.5 };
+		Real dynamicFriction_{ 0.2 };
 	};
+
+	bool operator==(const Material& m1, const Material& m2) noexcept;
 }
 
 #endif
