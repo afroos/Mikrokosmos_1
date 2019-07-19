@@ -1,1 +1,1 @@
-target_sources(Mikrokosmos PRIVATE Body.cpp)
+target_sources(Mikrokosmos PRIVATE RigidBody.cpp)

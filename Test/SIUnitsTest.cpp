@@ -28,6 +28,8 @@ TEST_CASE("SIUnits: Quantity constants")
 {
 	REQUIRE(36.0 * kilometer / hour == 10.0 * meter / second);
 	REQUIRE(36.0_kmph == 10.0_mps);
+	REQUIRE(pi * radian == 180.0_deg);
+	REQUIRE(1.0_Ns == 1.0_kgmps);
 }
 
 TEST_CASE("SIUnits: Quantity construction") 
@@ -66,11 +68,26 @@ TEST_CASE("SIUnits: Quantity definition")
 	using Energy = decltype(Force{} *Length{});
 	using Power  = decltype(Energy{} / Time{});
 
-	REQUIRE(Energy{ 12.0 } == Mass{ 3.0 } *LinearVelocity{ 2.0 } *LinearVelocity{ 2.0 });
-	REQUIRE(Power{ 15.0 } == Force{ 30.0 } *Length{ 1.0 } / Time{ 2.0 });
+	REQUIRE(Energy{ 12.0 } == Mass{ 3.0 } * LinearVelocity{ 2.0 } * LinearVelocity{ 2.0 });
+	REQUIRE(Power{ 15.0 } == Force{ 30.0 } * Length{ 1.0 } / Time{ 2.0 });
 }
 
-TEST_CASE("SIUnits: Quantity operators")
+TEST_CASE("SIUnits: Quantity relational operators")
+{
+	constexpr auto t1 = -2.5_mps;
+	constexpr auto t2 = -2.5_mps;
+	constexpr auto t3 = 5.0_mps;
+	constexpr auto t4 = 5.0_mps;
+
+	REQUIRE(t1 < t3);
+	REQUIRE(t3 > t1);
+	REQUIRE(t1 <= t2);
+	REQUIRE(t1 <= t3);
+	REQUIRE(t3 >= t4);
+	REQUIRE(t3 >= t1);
+}
+
+TEST_CASE("SIUnits: Quantity arithmetic operators")
 {
 	constexpr LinearVelocity v1 = 5.0_mps;
 	constexpr auto v2 = -14.0 * meter / second;
@@ -134,7 +151,7 @@ TEST_CASE("SIUnits: Quantity operators")
 	REQUIRE(f1 == 1 / t1);
 }
 
-TEST_CASE("SIUnits: Ostream operator")
+TEST_CASE("SIUnits: Quantity ostream operator")
 {
 	LinearVelocity v{ -1.8 };
 	std::stringstream ss;
@@ -142,7 +159,33 @@ TEST_CASE("SIUnits: Ostream operator")
 	REQUIRE(ss.str() == "-1.8 m^1*kg^0*s^-1");
 }
 
-TEST_CASE("SIUnits: Vector quantities")
+TEST_CASE("SIUnits: Quantity checks")
+{
+	auto q0 = 3.5_m;
+	REQUIRE(isFinite(q0));
+
+	auto q1 = Length{ std::numeric_limits<Real>::quiet_NaN() };
+	REQUIRE(!isFinite(q1));
+
+	auto q2 = Length{ std::numeric_limits<Real>::infinity() };
+	REQUIRE(!isFinite(q2));
+
+	auto q3 = 0.0_m;
+	REQUIRE(isZero(q3));
+	REQUIRE(isNonPositive(q3));
+	REQUIRE(isNonNegative(q3));
+
+	auto q4 = 66.5_m;
+	REQUIRE(isPositive(q4));
+	REQUIRE(isNonNegative(q4));
+
+	auto q5 = -66.5_m;
+	REQUIRE(isNegative(q5));
+	REQUIRE(isNonPositive(q5));
+
+}
+
+TEST_CASE("SIUnits: Quantity vector arithmetic operators")
 {
 	constexpr LinearAcceleration2 a1{ 3.0_mps2, -1.0_mps2 };
 	constexpr Mass m1 = 2.0_kg;
@@ -200,6 +243,21 @@ TEST_CASE("SIUnits: Vector quantities")
 
 	f3 = LinearMomentum2{ 4.0_kgmps, 8.0_kgmps } / second;
 	REQUIRE(f3 == Force2{ 4.0_N, 8.0_N });	
+}
+
+TEST_CASE("SIUnits: Quantity vector checks")
+{
+	auto q0 = Force2{ -1.0_N, 2.0_N };
+	REQUIRE(isFinite(q0));
+
+	auto q1 = Force2{ std::numeric_limits<Real>::quiet_NaN(), 0.1_N };
+	REQUIRE(!isFinite(q1));
+
+	auto q2 = Force2{ 0.1_N, std::numeric_limits<Real>::infinity()};
+	REQUIRE(!isFinite(q2));
+
+	auto q3 = Force2{ 0.0_N, 0.0_N };
+	REQUIRE(isZero(q3));
 }
 
 TEST_CASE("SIUnits: Quantity storage size")

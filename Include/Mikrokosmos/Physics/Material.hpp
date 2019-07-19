@@ -10,8 +10,8 @@ namespace Mikrokosmos
 	{
 	public:
 
-		Material() = default;
-		Material(MaterialParameters parameters) noexcept;
+		Material() noexcept;
+		Material(const MaterialParameters& parameters) noexcept;
 
 		AreaDensity density() const noexcept;
 		Real restitution() const noexcept;
@@ -25,10 +25,10 @@ namespace Mikrokosmos
 
 	private:
 
-		AreaDensity density_{ 0.0_kgpm2 };
-		Real restitution_{ 0.0 };
-		Real staticFriction_{ 0.5 };
-		Real dynamicFriction_{ 0.2 };
+		AreaDensity density_{0};
+		Real restitution_{0};
+		Real staticFriction_{0};
+		Real dynamicFriction_{0};
 	};
 
 	bool operator==(const Material& m1, const Material& m2) noexcept;

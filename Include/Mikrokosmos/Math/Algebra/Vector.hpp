@@ -217,6 +217,22 @@ namespace Mikrokosmos
 		return os;
 	}
 
+	template <typename T, std::size_t N>
+	inline bool isFinite(const Vector<T, N>& v)
+	{
+		for (size_t i = 0; i < N; ++i)
+		{
+			if (!isFinite(v[i])) return false;
+		}
+		return true;
+	}
+
+	template <typename T, std::size_t N>
+	inline bool isZero(const Vector<T, N>& v)
+	{
+		return (v == Vector<T, N>::zero());
+	}
+
 	template <typename T1, typename T2, typename T3 = decltype(T1{} * T2{}), std::size_t N>
 	inline constexpr T3 dot(const Vector<T1, N>& v1, const Vector<T2, N>& v2) noexcept
 	{

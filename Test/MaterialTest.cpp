@@ -36,15 +36,12 @@ TEST_CASE("Material: Construction")
 
 TEST_CASE("Material: Acessors")
 {
-	Material m{ MaterialParameters{}.density(2.0_kgpm2)
-									.restitution(0.5)
-									.staticFriction(2.0)
-									.dynamicFriction(1.0) };
+	Material m;
 
-	REQUIRE(m.density() == 2.0_kgpm2);
-	REQUIRE(m.restitution() == 0.5);
-	REQUIRE(m.staticFriction() == 2.0);
-	REQUIRE(m.dynamicFriction() == 1.0);
+	REQUIRE(m.density() == 0.0_kgpm2);
+	REQUIRE(m.restitution() == 0.0);
+	REQUIRE(m.staticFriction() == 0.5);
+	REQUIRE(m.dynamicFriction() == 0.2);
 
 	m.setDensity(10.0_kgpm2);
 	m.setRestitution(0.0);
@@ -56,6 +53,4 @@ TEST_CASE("Material: Acessors")
 	REQUIRE(m.staticFriction() == 1.5);
 	REQUIRE(m.dynamicFriction() == 0.05);
 }
-
-
 

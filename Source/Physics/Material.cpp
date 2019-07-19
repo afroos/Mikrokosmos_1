@@ -6,7 +6,12 @@
 namespace Mikrokosmos
 {
 
-Material::Material(MaterialParameters parameters) noexcept
+Material::Material() noexcept
+	: Material{ MaterialParameters{} }
+{
+}
+
+Material::Material(const MaterialParameters& parameters) noexcept
 {
 	setDensity(parameters.density_);
 	setRestitution(parameters.restitution_);
