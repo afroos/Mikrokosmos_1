@@ -27,16 +27,16 @@ namespace Mikrokosmos
 		{
 		}
 
-		static constexpr Vector zero() noexcept { return Vector(); }
+		static constexpr Vector Zero() noexcept { return Vector(); }
 
 		template<typename = std::enable_if_t<(N > 0)>>
-		static constexpr Vector unitX() noexcept { return unit(0); }
+		static constexpr Vector UnitX() noexcept { return unit(0); }
 
 		template<typename = std::enable_if_t<(N > 1)>>
-		static constexpr Vector unitY() noexcept { return unit(1); }
+		static constexpr Vector UnitY() noexcept { return unit(1); }
 
 		template<typename = std::enable_if_t<(N > 2)>>
-		static constexpr Vector unitZ() noexcept { return unit(2); }
+		static constexpr Vector UnitZ() noexcept { return unit(2); }
 
 		constexpr ConstIterator begin() const noexcept { return coords.data(); }
 		constexpr Iterator begin() noexcept { return coords.data(); }
@@ -230,7 +230,7 @@ namespace Mikrokosmos
 	template <typename T, std::size_t N>
 	inline bool isZero(const Vector<T, N>& v)
 	{
-		return (v == Vector<T, N>::zero());
+		return (v == Vector<T, N>::Zero());
 	}
 
 	template <typename T1, typename T2, typename T3 = decltype(T1{} * T2{}), std::size_t N>

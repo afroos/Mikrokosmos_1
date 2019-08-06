@@ -37,19 +37,19 @@ public:
 
 	//void setType(BodyType type) noexcept;
 
-	void setMass(const Mass mass) noexcept;
-	//void setMomentOfInertia(MomentOfInertia inertia) noexcept;
+	void setMass(Mass mass) noexcept;
+	void setMomentOfInertia(MomentOfInertia inertia) noexcept;
 
+	//void setPose(const Transform& pose) noexcept;
 	//inline void setLinearPosition(Length2 linearPosition) noexcept;
 	//inline void setAngularPosition(Angle angularPosition) noexcept;
-	// void setPose(const Transform& pose) noexcept;
 
-	void setVelocity(const LinearVelocity2 linearVelocity, const AngularVelocity angularVelocity) noexcept;
-	void setLinearVelocity(const LinearVelocity2 linearVelocity) noexcept;
-	void setAngularVelocity(const AngularVelocity angularVelocity) noexcept;
+	void setVelocity(const LinearVelocity2& linearVelocity, AngularVelocity angularVelocity) noexcept;
+	void setLinearVelocity(const LinearVelocity2& linearVelocity) noexcept;
+	void setAngularVelocity(AngularVelocity angularVelocity) noexcept;
 
-	void setLinearDamping(const Frequency linearDamping) noexcept;
-	void setAngularDamping(const Frequency angularDamping) noexcept;
+	void setLinearDamping(Frequency linearDamping) noexcept;
+	void setAngularDamping(Frequency angularDamping) noexcept;
 
 	void allowSleep() noexcept;
 	void forbidSleep() noexcept;
@@ -58,14 +58,14 @@ public:
 	void awaken() noexcept;
 
 	void applyForce(const Force2& force) noexcept;
-	void applyForce(const Force2& force, const Length2& point) noexcept;
-	void applyTorque(const Torque& torque) noexcept;
+	void applyForceAtPoint(const Force2& force, const Length2& point) noexcept;
+	void applyTorque(Torque torque) noexcept;
 
 	void applyLinearImpulse(const LinearImpulse2& linearImpulse) noexcept;
-	void applyLinearImpulse(const LinearImpulse2& linearImpulse, const Length2& point) noexcept;
-	void applyAngularImpulse(const AngularImpulse& angularImpulse) noexcept;
+	void applyLinearImpulseAtPoint(const LinearImpulse2& linearImpulse, const Length2& point) noexcept;
+	void applyAngularImpulse(AngularImpulse angularImpulse) noexcept;
 
-	//void integrate(const Time duration);
+	//void integrate(const Time timeStep);
 
 private:
 

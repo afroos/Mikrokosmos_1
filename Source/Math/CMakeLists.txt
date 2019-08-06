@@ -1,1 +1,2 @@
+add_subdirectory(Algebra)
 add_subdirectory(Geometry)

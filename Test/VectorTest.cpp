@@ -38,10 +38,10 @@ TEST_CASE("Vector: Construction")
 
 TEST_CASE("Vector: Constants")
 {
-	REQUIRE(Real3::zero()  == Real3{ 0.0, 0.0, 0.0 });
-	REQUIRE(Real3::unitX() == Real3{ 1.0, 0.0, 0.0 });
-	REQUIRE(Real3::unitY() == Real3{ 0.0, 1.0, 0.0 });
-	REQUIRE(Real3::unitZ() == Real3{ 0.0, 0.0, 1.0 });
+	REQUIRE(Real3::Zero()  == Real3{ 0.0, 0.0, 0.0 });
+	REQUIRE(Real3::UnitX() == Real3{ 1.0, 0.0, 0.0 });
+	REQUIRE(Real3::UnitY() == Real3{ 0.0, 1.0, 0.0 });
+	REQUIRE(Real3::UnitZ() == Real3{ 0.0, 0.0, 1.0 });
 }
 
 TEST_CASE("Vector: Assignment")

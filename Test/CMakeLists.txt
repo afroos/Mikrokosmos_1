@@ -4,6 +4,7 @@ target_sources(UnitTests PRIVATE
 	BoxTest.cpp
 	CircleTest.cpp
 	ColliderTest.cpp
+	ComplexTest.cpp
 	MaterialTest.cpp
 	RealTest.cpp
 	RigidBodyTest.cpp

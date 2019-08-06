@@ -47,7 +47,14 @@ namespace Mikrokosmos
 
 	MomentOfInertia RigidBody::momentOfInertia() const noexcept
 	{
-		return Real{ 1 } / inverseMomentOfInertia_;
+		if (isZero(inverseMomentOfInertia_))
+		{
+			return MomentOfInertia{ std::numeric_limits<Real>::infinity() };
+		}
+		else
+		{
+			return Real{ 1 } / inverseMomentOfInertia_;
+		}
 	}
 
 	Length2 RigidBody::centerOfMass() const noexcept
@@ -106,7 +113,13 @@ namespace Mikrokosmos
 		inverseMass_ = Real{ 1 } / mass;
 	}
 
-	void RigidBody::setVelocity(const LinearVelocity2 linearVelocity, const AngularVelocity angularVelocity) noexcept
+	void RigidBody::setMomentOfInertia(MomentOfInertia inertia) noexcept
+	{
+		assert(inertia > 0.0_kgm2);
+		inverseMomentOfInertia_ = Real{ 1 } / inertia;
+	}
+
+	void RigidBody::setVelocity(const LinearVelocity2& linearVelocity, AngularVelocity angularVelocity) noexcept
 	{
 		assert(isFinite(linearVelocity) && isFinite(angularVelocity));
 
@@ -122,14 +135,14 @@ namespace Mikrokosmos
 		angularVelocity_ = angularVelocity;
 	}
 
-	void RigidBody::setLinearVelocity(const LinearVelocity2 linearVelocity) noexcept
+	void RigidBody::setLinearVelocity(const LinearVelocity2& linearVelocity) noexcept
 	{
-		setVelocity(linearVelocity, angularVelocity());
+		setVelocity(linearVelocity, angularVelocity_);
 	}
 
-	void RigidBody::setAngularVelocity(const AngularVelocity angularVelocity) noexcept
+	void RigidBody::setAngularVelocity(AngularVelocity angularVelocity) noexcept
 	{
-		setVelocity(linearVelocity(), angularVelocity);
+		setVelocity(linearVelocity_, angularVelocity);
 	}
 
 	// velocity = velocity / (1 + damping*dt)					  TUTORIAL  Hz
@@ -197,13 +210,13 @@ namespace Mikrokosmos
 		totalForce_ += force;
 	}
 
-	void RigidBody::applyForce(const Force2& force, const Length2& point) noexcept
+	void RigidBody::applyForceAtPoint(const Force2& force, const Length2& point) noexcept
 	{
 		applyForce(force);
 		applyTorque(perpDot(point - centerOfMass(), force));
 	}
 
-	void RigidBody::applyTorque(const Torque& torque) noexcept
+	void RigidBody::applyTorque(Torque torque) noexcept
 	{
 		assert(isFinite(torque));
 		totalTorque_ += torque;
@@ -216,13 +229,13 @@ namespace Mikrokosmos
 		setLinearVelocity(newLinearVelocity);
 	}
 
-	void RigidBody::applyLinearImpulse(const LinearImpulse2& linearImpulse, const Length2& point) noexcept
+	void RigidBody::applyLinearImpulseAtPoint(const LinearImpulse2& linearImpulse, const Length2& point) noexcept
 	{
 		applyLinearImpulse(linearImpulse);
 		applyAngularImpulse(perpDot(point - centerOfMass(), linearImpulse));
 	}
 
-	void RigidBody::applyAngularImpulse(const AngularImpulse& angularImpulse) noexcept
+	void RigidBody::applyAngularImpulse(AngularImpulse angularImpulse) noexcept
 	{
 		assert(isFinite(angularImpulse));
 		auto newAngularVelocity = angularVelocity_ + angularImpulse * inverseMomentOfInertia_;
