@@ -3,6 +3,5 @@
 
 #include <Mikrokosmos/Math/Geometry/Circle.hpp>
 #include <Mikrokosmos/Math/Geometry/Shape.hpp>
-#include <Mikrokosmos/Math/Geometry/Transform.hpp>
 
 #endif
