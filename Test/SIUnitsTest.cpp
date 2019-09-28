@@ -1,7 +1,4 @@
 #include "catch.hpp"
-#include <iomanip>
-#include <iostream>
-#include <sstream>
 #include <Mikrokosmos/Physics/SIUnits.hpp>
 
 using namespace Mikrokosmos;
@@ -151,14 +148,6 @@ TEST_CASE("SIUnits: Quantity arithmetic operators")
 	REQUIRE(f1 == 1 / t1);
 }
 
-TEST_CASE("SIUnits: Quantity ostream operator")
-{
-	LinearVelocity v{ -1.8 };
-	std::stringstream ss;
-	ss << std::fixed << std::setprecision(1) << v;
-	REQUIRE(ss.str() == "-1.8 m^1*kg^0*s^-1");
-}
-
 TEST_CASE("SIUnits: Quantity checks")
 {
 	auto q0 = 3.5_m;
@@ -182,6 +171,8 @@ TEST_CASE("SIUnits: Quantity checks")
 	auto q5 = -66.5_m;
 	REQUIRE(isNegative(q5));
 	REQUIRE(isNonPositive(q5));
+
+	REQUIRE(nearlyEqual(-0.000000001000001_mps, -0.000000001000002_mps, 0.00001f));
 
 }
 
@@ -258,6 +249,10 @@ TEST_CASE("SIUnits: Quantity vector checks")
 
 	auto q3 = Force2{ 0.0_N, 0.0_N };
 	REQUIRE(isZero(q3));
+
+	auto q4 = Force2{ 1.0000002_N, 1.0000001_N };
+	auto q5 = Force2{ 1.0000001_N, 1.0000002_N };
+	REQUIRE(nearlyEqual(q4, q5, 0.00001f));
 }
 
 TEST_CASE("SIUnits: Quantity storage size")

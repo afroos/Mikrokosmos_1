@@ -1,4 +1,4 @@
-#include <Mikrokosmos/Math/Algebra/Rotation2.hpp>
+#include <Mikrokosmos/Math/Geometry/Rotation2.hpp>
 
 #include <cmath>
 
@@ -18,13 +18,6 @@ namespace Mikrokosmos
 	Angle Rotation2::angle() const noexcept
 	{
 		return Angle{ std::arg(z_) };
-	}
-
-	Rotation2 Rotation2::inverse() noexcept
-	{
-		Rotation2 r;
-		r.z_ = std::conj(z_);
-		return r;
 	}
 
 	Rotation2& Rotation2::operator*=(const Rotation2& r2) noexcept
@@ -60,6 +53,18 @@ namespace Mikrokosmos
 	{
 		os << r.angle();
 		return os;
+	}
+
+	Rotation2 inverse(const Rotation2& r) noexcept
+	{
+		Rotation2 result;
+		result.z_ = std::conj(r.z_);
+		return result;
+	}
+
+	bool nearlyEqual(const Rotation2& r1, const Rotation2& r2, Real margin) noexcept
+	{
+		return nearlyEqual(r1.angle(), r2.angle(), margin);
 	}
 
 }

@@ -1,5 +1,5 @@
-#ifndef MIKROKOSMOS_MATH_ALGEBRA_ROTATION2_HPP
-#define MIKROKOSMOS_MATH_ALGEBRA_ROTATION2_HPP
+#ifndef MIKROKOSMOS_MATH_GEOMETRY_ROTATION2_HPP
+#define MIKROKOSMOS_MATH_GEOMETRY_ROTATION2_HPP
 
 #include <Mikrokosmos/Physics/SIUnits.hpp>
 
@@ -18,12 +18,11 @@ namespace Mikrokosmos
 
 		Angle angle() const noexcept;
 
-		Rotation2 inverse() noexcept;
-
 		Rotation2& operator*=(const Rotation2& r2) noexcept;
 
 		friend bool operator==(const Rotation2& r1, const Rotation2& r2) noexcept;
 		friend Length2 operator*(const Rotation2& r, const Length2 v) noexcept;
+		friend Rotation2 inverse(const Rotation2& r) noexcept;
 
 	private:
 
@@ -34,6 +33,7 @@ namespace Mikrokosmos
 	Rotation2 operator*(const Rotation2& r1, const Rotation2& r2) noexcept;	
 	std::ostream& operator<<(std::ostream& os, const Rotation2& r);
 
+	bool nearlyEqual(const Rotation2& r1, const Rotation2& r2, Real margin = 1e-15) noexcept;
 }
 
 #endif

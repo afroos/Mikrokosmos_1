@@ -26,8 +26,20 @@ TEST_CASE("Real: Operators")
 	Real r5 = -66.5;
 	REQUIRE(isNegative(r5));
 	REQUIRE(isNonPositive(r5));
-
 }
 
-
-
+TEST_CASE("Real: Equality")
+{
+	Real tol = Real{ 0.00001f };
+	REQUIRE(nearlyEqual(Real{ -1234.5678f }, Real{ -1234.5678f }));
+	REQUIRE(nearlyEqual(Real{ 1000000.0f }, Real{ 1000001.0f }, tol));
+	REQUIRE(!nearlyEqual(Real{ -10001.0f }, Real{ -10000.0f }, tol));
+	REQUIRE(nearlyEqual(Real{ 1.0000002f }, Real{ 1.0000001f }, tol));
+	REQUIRE(!nearlyEqual(Real{ -1.0001f }, Real{ -1.0002f }, tol));
+	REQUIRE(nearlyEqual(Real{ 0.000000001000001f }, Real{ 0.000000001000002f }, tol));
+	REQUIRE(nearlyEqual(Real{ -0.000000001000001f }, Real{ -0.000000001000002f }, tol));
+	REQUIRE(nearlyEqual(Real{ 0.3f }, Real{ 0.30000003f }, tol));
+	REQUIRE(nearlyEqual(Real{ -0.00000001f }, Real{ 0.0f }, tol));
+	REQUIRE(!nearlyEqual(Real{ 1.0000001f }, Real{ -1.0f }, tol));
+	REQUIRE(!nearlyEqual(Real{ -0.00000001f }, Real{ -1.0f }, tol));
+}

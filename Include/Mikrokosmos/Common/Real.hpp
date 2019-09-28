@@ -1,6 +1,7 @@
 #ifndef MIKROKOSMOS_COMMON_REAL_HPP
 #define MIKROKOSMOS_COMMON_REAL_HPP
 
+#include <algorithm>
 #include <cmath>
 
 namespace Mikrokosmos 
@@ -36,6 +37,11 @@ namespace Mikrokosmos
 	inline bool isNonNegative(Real r)
 	{
 		return (isZero(r) || isPositive(r));
+	}
+
+	inline bool nearlyEqual(Real a, Real b, Real tolerance = Real{ 1e-15 }) noexcept
+	{
+		return (std::abs(a - b) <= tolerance * std::max(Real{ 1 }, std::max(std::abs(a), std::abs(b))));
 	}
 
 }

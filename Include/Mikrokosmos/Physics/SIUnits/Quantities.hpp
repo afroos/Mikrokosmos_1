@@ -218,6 +218,12 @@ namespace Mikrokosmos
 		return isNonNegative(q.magnitude);
 	}
 
+	template <int M1, int K1, int S1, int M2, int K2, int S2>
+	inline bool nearlyEqual(const Quantity<Unit<M1, K1, S1>>& q1, const Quantity<Unit<M2, K2, S2>>& q2, Real tolerance = Real{ 1e-15 }) noexcept
+	{
+		return nearlyEqual(q1.magnitude, q2.magnitude, tolerance);
+	}
+
 	using Length = Quantity<Unit<1, 0, 0>>;
 	using Mass   = Quantity<Unit<0, 1, 0>>;
 	using Time   = Quantity<Unit<0, 0, 1>>;
@@ -251,43 +257,44 @@ namespace Mikrokosmos
 	constexpr auto hour = Real{ 60.0 } * minute;
 	constexpr auto degree = pi * radian / Real{ 180.0 };
 
-#define MIKROKOSMOS_UNIT_LITERAL(quantity, unit, name)				\
-	constexpr quantity operator"" name(long double magnitude)		\
-	{																\
-		return static_cast<Real>(magnitude) * unit;					\
-	}																\
+#define MIKROKOSMOS_UNIT_LITERAL(quantity, unit, name)										\
+	inline constexpr quantity operator"" _ ## name(long double magnitude)					\
+	{																						\
+		return static_cast<Real>(magnitude) * unit;											\
+	}																						\
 
-	MIKROKOSMOS_UNIT_LITERAL(Length, meter, _m);
-	MIKROKOSMOS_UNIT_LITERAL(Length, milli * meter, _mm);
-	MIKROKOSMOS_UNIT_LITERAL(Length, kilometer, _km);
-	MIKROKOSMOS_UNIT_LITERAL(Mass, kilogram, _kg);
-	MIKROKOSMOS_UNIT_LITERAL(Mass, milli * kilogram, _g);
-	MIKROKOSMOS_UNIT_LITERAL(Time, second, _s);
-	MIKROKOSMOS_UNIT_LITERAL(Time, millisecond, _ms);
-	MIKROKOSMOS_UNIT_LITERAL(Angle, radian, _rad);
-	MIKROKOSMOS_UNIT_LITERAL(Angle, degree, _deg);
-	MIKROKOSMOS_UNIT_LITERAL(Area, meter * meter, _m2);
-	MIKROKOSMOS_UNIT_LITERAL(AreaDensity, kilogram / (meter * meter), _kgpm2);
-	MIKROKOSMOS_UNIT_LITERAL(MomentOfInertia, kilogram * meter * meter, _kgm2);
-	MIKROKOSMOS_UNIT_LITERAL(Frequency, hertz, _Hz);
-	MIKROKOSMOS_UNIT_LITERAL(Volume, meter * meter * meter, _m3);
-	MIKROKOSMOS_UNIT_LITERAL(LinearVelocity, meter / second, _mps);
-	MIKROKOSMOS_UNIT_LITERAL(LinearVelocity, kilometer / hour, _kmph);
-	MIKROKOSMOS_UNIT_LITERAL(AngularVelocity, radian / second, _radps);
-	MIKROKOSMOS_UNIT_LITERAL(AngularVelocity, degree / second, _degps);
-	MIKROKOSMOS_UNIT_LITERAL(AngularVelocity, Real{ 2.0 } * pi * radian / minute, _rpm);
-	MIKROKOSMOS_UNIT_LITERAL(LinearAcceleration, meter / (second * second), _mps2);
-	MIKROKOSMOS_UNIT_LITERAL(AngularAcceleration, radian / (second * second), _radps2)
-	MIKROKOSMOS_UNIT_LITERAL(AngularAcceleration, degree / (second * second), _degps2);
-	MIKROKOSMOS_UNIT_LITERAL(Force, newton, _N);
-	MIKROKOSMOS_UNIT_LITERAL(Force, kilonewton, _kN);
-	MIKROKOSMOS_UNIT_LITERAL(Torque, newton * meter, _Nm);
-	MIKROKOSMOS_UNIT_LITERAL(Pressure, pascal, _Pa);
-	MIKROKOSMOS_UNIT_LITERAL(SecondMomentOfArea, meter * meter * meter * meter, _m4);
-	MIKROKOSMOS_UNIT_LITERAL(LinearMomentum, kilogram * meter / second, _kgmps);
-	MIKROKOSMOS_UNIT_LITERAL(AngularMomentum, kilogram * meter * meter * radian / second, _kgm2ps);
-	MIKROKOSMOS_UNIT_LITERAL(LinearImpulse, newton * second, _Ns);
-	MIKROKOSMOS_UNIT_LITERAL(AngularImpulse, newton * meter * second, _Nms);
+
+	MIKROKOSMOS_UNIT_LITERAL(Length, meter, m);
+	MIKROKOSMOS_UNIT_LITERAL(Length, milli * meter, mm);
+	MIKROKOSMOS_UNIT_LITERAL(Length, kilometer, km);
+	MIKROKOSMOS_UNIT_LITERAL(Mass, kilogram, kg);
+	MIKROKOSMOS_UNIT_LITERAL(Mass, milli * kilogram, g);
+	MIKROKOSMOS_UNIT_LITERAL(Time, second, s);
+	MIKROKOSMOS_UNIT_LITERAL(Time, millisecond, ms);
+	MIKROKOSMOS_UNIT_LITERAL(Angle, radian, rad);
+	MIKROKOSMOS_UNIT_LITERAL(Angle, degree, deg);
+	MIKROKOSMOS_UNIT_LITERAL(Area, meter * meter, m2);
+	MIKROKOSMOS_UNIT_LITERAL(AreaDensity, kilogram / (meter * meter), kgpm2);
+	MIKROKOSMOS_UNIT_LITERAL(MomentOfInertia, kilogram * meter * meter, kgm2);
+	MIKROKOSMOS_UNIT_LITERAL(Frequency, hertz, Hz);
+	MIKROKOSMOS_UNIT_LITERAL(Volume, meter * meter * meter, m3);
+	MIKROKOSMOS_UNIT_LITERAL(LinearVelocity, meter / second, mps);
+	MIKROKOSMOS_UNIT_LITERAL(LinearVelocity, kilometer / hour, kmph);
+	MIKROKOSMOS_UNIT_LITERAL(AngularVelocity, radian / second, radps);
+	MIKROKOSMOS_UNIT_LITERAL(AngularVelocity, degree / second, degps);
+	MIKROKOSMOS_UNIT_LITERAL(AngularVelocity, Real{ 2.0 } * pi * radian / minute, rpm);
+	MIKROKOSMOS_UNIT_LITERAL(LinearAcceleration, meter / (second * second), mps2);
+	MIKROKOSMOS_UNIT_LITERAL(AngularAcceleration, radian / (second * second), radps2)
+	MIKROKOSMOS_UNIT_LITERAL(AngularAcceleration, degree / (second * second), degps2);
+	MIKROKOSMOS_UNIT_LITERAL(Force, newton, N);
+	MIKROKOSMOS_UNIT_LITERAL(Force, kilonewton, kN);
+	MIKROKOSMOS_UNIT_LITERAL(Torque, newton * meter, Nm);
+	MIKROKOSMOS_UNIT_LITERAL(Pressure, pascal, Pa);
+	MIKROKOSMOS_UNIT_LITERAL(SecondMomentOfArea, meter * meter * meter * meter, m4);
+	MIKROKOSMOS_UNIT_LITERAL(LinearMomentum, kilogram * meter / second, kgmps);
+	MIKROKOSMOS_UNIT_LITERAL(AngularMomentum, kilogram * meter * meter * radian / second, kgm2ps);
+	MIKROKOSMOS_UNIT_LITERAL(LinearImpulse, newton * second, Ns);
+	MIKROKOSMOS_UNIT_LITERAL(AngularImpulse, newton * meter * second, Nms);
 
 	using Length2 = Vector2<Length>;
 	using LinearVelocity2 = Vector2<LinearVelocity>;

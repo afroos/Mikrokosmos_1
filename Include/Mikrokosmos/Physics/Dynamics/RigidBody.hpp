@@ -1,6 +1,7 @@
 #ifndef MIKROKOSMOS_PHYSICS_DYNAMICS_RIGIDBODY_HPP
 #define MIKROKOSMOS_PHYSICS_DYNAMICS_RIGIDBODY_HPP
 
+#include <Mikrokosmos/Math/Geometry/Transform.hpp>
 #include <Mikrokosmos/Physics/Dynamics/RigidBodyParameters.hpp>
 #include <Mikrokosmos/Physics/SIUnits.hpp>
 
@@ -41,8 +42,8 @@ public:
 	void setMomentOfInertia(MomentOfInertia inertia) noexcept;
 
 	//void setPose(const Transform& pose) noexcept;
-	//inline void setLinearPosition(Length2 linearPosition) noexcept;
-	//inline void setAngularPosition(Angle angularPosition) noexcept;
+	//void setLinearPosition(Length2 linearPosition) noexcept;
+	//void setAngularPosition(Angle angularPosition) noexcept;
 
 	void setVelocity(const LinearVelocity2& linearVelocity, AngularVelocity angularVelocity) noexcept;
 	void setLinearVelocity(const LinearVelocity2& linearVelocity) noexcept;
@@ -74,8 +75,7 @@ private:
 	InverseMass inverseMass_;
 	InverseMomentOfInertia inverseMomentOfInertia_;
 
-	Length2 linearPosition_;
-	Angle angularPosition_;
+	Transform pose_;
 
 	LinearVelocity2 linearVelocity_;
 	AngularVelocity angularVelocity_;

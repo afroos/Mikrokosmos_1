@@ -59,17 +59,17 @@ namespace Mikrokosmos
 
 	Length2 RigidBody::centerOfMass() const noexcept
 	{
-		return linearPosition_;
+		return linearPosition();
 	}
 
 	Length2 RigidBody::linearPosition() const noexcept
 	{
-		return linearPosition_;
+		return pose_.translation();
 	}
 
 	Angle RigidBody::angularPosition() const noexcept
 	{
-		return angularPosition_;
+		return pose_.rotation.angle();
 	}
 
 	LinearVelocity2 RigidBody::linearVelocity() const noexcept

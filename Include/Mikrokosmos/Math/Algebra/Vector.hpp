@@ -2,9 +2,8 @@
 #define MIKROKOSMOS_MATH_ALGEBRA_VECTOR_HPP
 
 #include <Mikrokosmos/Common/Real.hpp>
-#include <algorithm>
 #include <array>
-#include <numeric>
+#include <cassert>
 
 namespace Mikrokosmos
 {
@@ -88,7 +87,14 @@ namespace Mikrokosmos
 	template <typename T, std::size_t N>
 	inline constexpr bool operator==(const Vector<T, N>& v1, const Vector<T, N>& v2) noexcept
 	{
-		return std::equal(v1.begin(), v1.end(), v2.begin());
+		for (size_t i = 0; i < N; ++i)
+		{
+			if (v1[i] != v2[i])
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	template <typename T, std::size_t N>
@@ -106,22 +112,31 @@ namespace Mikrokosmos
 	template <typename T, std::size_t N>
 	inline constexpr Vector<T, N> operator-(const Vector<T, N>& v) noexcept
 	{
-		Vector<T, N> result;
-		std::transform(v.begin(), v.end(), result.begin(), std::negate<T>());
+		auto result = v;
+		for (size_t i = 0; i < N; ++i)
+		{
+			result[i] = -v[i];
+		}
 		return result;
 	}
 
 	template <typename T, std::size_t N>
 	inline constexpr Vector<T, N>& operator+=(Vector<T, N>& v1, const Vector<T, N>& v2) noexcept
 	{
-		std::transform(v1.begin(), v1.end(), v2.begin(), v1.begin(), std::plus<T>());
+		for (size_t i = 0; i < N; ++i)
+		{
+			v1[i] += v2[i];
+		}
 		return v1;
 	}
 
 	template <typename T, std::size_t N>
 	inline constexpr Vector<T, N>& operator-=(Vector<T, N>& v1, const Vector<T, N>& v2) noexcept
 	{
-		std::transform(v1.begin(), v1.end(), v2.begin(), v1.begin(), std::minus<T>());
+		for (size_t i = 0; i < N; ++i)
+		{
+			v1[i] -= v2[i];
+		}
 		return v1;
 	}
 
@@ -231,6 +246,19 @@ namespace Mikrokosmos
 	inline bool isZero(const Vector<T, N>& v)
 	{
 		return (v == Vector<T, N>::Zero());
+	}
+
+	template <typename T, std::size_t N>
+	inline bool nearlyEqual(const Vector<T, N>& v1, const Vector<T, N>& v2, Real tolerance = Real{ 1e-15 }) noexcept
+	{
+		for (size_t i = 0; i < N; ++i)
+		{
+			if (!nearlyEqual(v1[i], v2[i], tolerance))
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	template <typename T1, typename T2, typename T3 = decltype(T1{} * T2{}), std::size_t N>

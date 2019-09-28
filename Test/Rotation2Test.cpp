@@ -1,27 +1,8 @@
 #include "catch.hpp"
-#include <Mikrokosmos/Math/Algebra/Rotation2.hpp>
-
-#include <iomanip>
-#include <iostream>
-#include <sstream>
+#include <Mikrokosmos/Math/Geometry/Rotation2.hpp>
 
 using namespace Mikrokosmos;
 
-bool nearlyEqual(const Angle& theta1, const Angle& theta2, Real margin = 1e-15)
-{
-	return theta1.magnitude == Approx(theta2.magnitude).margin(margin);
-}
-
-bool nearlyEqual(const Rotation2& r1, const Rotation2& r2, Real margin = 1e-15)
-{
-	return nearlyEqual(r1.angle(), r2.angle(), margin);
-}
-
-bool nearlyEqual(const Length2& v1, const Length2& v2, Real margin = 1e-15)
-{
-	return v1.x().magnitude == Approx(v2.x().magnitude).margin(margin) && 
-		v1.y().magnitude == Approx(v2.y().magnitude).margin(margin);
-}
 
 TEST_CASE("Rotation2: Storage size") 
 {
@@ -43,7 +24,7 @@ TEST_CASE("Rotation2: Construction")
 	REQUIRE(nearlyEqual(r1, r2));
 	REQUIRE(nearlyEqual(r2, r6));
 	REQUIRE(nearlyEqual(r3, r7));
-	REQUIRE(nearlyEqual(r4, r8.inverse()));
+	REQUIRE(nearlyEqual(r4, inverse(r8)));
 	REQUIRE(nearlyEqual(r5, r9));
 }
 
@@ -123,23 +104,17 @@ TEST_CASE("Rotation2: Vector rotation")
 	auto v8 = (r4 * r2 * Rotation2{15.0_deg}) * v;
 	auto v9 = (r2 * r3) * v;
 
+	auto sqrt2_m = std::sqrt(Real{ 2.0 }) * meter;
+
 	REQUIRE(nearlyEqual(v1, v));
 	REQUIRE(nearlyEqual(v2, Length2{ -1.0_m, 1.0_m }));
 	REQUIRE(nearlyEqual(v3, Length2{ 1.0_m, -1.0_m }));
-	REQUIRE(nearlyEqual(v4, Length2{ 0.0_m, 1.4142_m }));
-	REQUIRE(nearlyEqual(v5, Length2{ 0.0_m, -1.4142_m }));
+	REQUIRE(nearlyEqual(v4, Length2{ 0.0_m, sqrt2_m }));
+	REQUIRE(nearlyEqual(v5, Length2{ 0.0_m, -sqrt2_m }));
 	REQUIRE(nearlyEqual(v6, v4));
-	REQUIRE(nearlyEqual(v7, Length2{ -1.4142_m, 0.0_m}));
+	REQUIRE(nearlyEqual(v7, Length2{ -sqrt2_m, 0.0_m}));
 	REQUIRE(nearlyEqual(v8, Length2{ -1.3660_m, -0.3660_m }, 0.00005));
 	REQUIRE(nearlyEqual(v9, v));
-}
-
-TEST_CASE("Rotation2: Ostream operator")
-{
-	Rotation2 r{ 23.0_deg };
-	std::stringstream ss;
-	//ss << std::fixed << std::setprecision(1) << r;
-	REQUIRE(ss.str() == "");
 }
 
 TEST_CASE("Rotation2: Inverse")
@@ -147,6 +122,6 @@ TEST_CASE("Rotation2: Inverse")
 	Rotation2 r1{ 45.0_deg };
 	Rotation2 r2{ -2.0_deg };
 
-	REQUIRE(r1.inverse() == Rotation2{ -45.0_deg });
-	REQUIRE(r2.inverse() == Rotation2{ 2.0_deg });
+	REQUIRE(inverse(r1) == Rotation2{ -45.0_deg });
+	REQUIRE(inverse(r2) == Rotation2{ 2.0_deg });
 }
