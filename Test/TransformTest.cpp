@@ -39,23 +39,23 @@ TEST_CASE("Transform: Setters and getters")
 	REQUIRE(nearlyEqual(m, Transform{ -0.1_m, -6.6_m, -50.6_deg }));
 
 	m.setTranslation(0.1_m, 6.6_m);
-	m.setRotation(50.6_deg);
-	REQUIRE(nearlyEqual(m, Transform{ 0.1_m, 6.6_m, 50.6_deg }));
+	m.setRotation(0.0_deg);
+	REQUIRE(nearlyEqual(m, Transform{ 0.1_m, 6.6_m, 0.0_deg }));
 
 	m.translate(Translation2{ 1.0_m, 1.0_m });
-	REQUIRE(nearlyEqual(m, Transform{ 1.1_m, 7.6_m, 50.6_deg }));
+	REQUIRE(nearlyEqual(m, Transform{ 1.1_m, 7.6_m, 0.0_deg }));
 
 	m.translate(-1.1_m, -7.6_m);
 	m.rotate(-20.0_deg);
-	REQUIRE(nearlyEqual(m, Transform{ 0.0_m, 0.0_m, 30.6_deg }));
+	REQUIRE(nearlyEqual(m, Transform{ 0.0_m, 0.0_m, -20.0_deg }));
 }
 
 TEST_CASE("Transform: Concatenation")
 {
 	Transform m1, m2;
 	auto sqrt3_m = std::sqrt(Real{ 3.0 }) * meter;
-	m1.rotate(-30.0_deg).translate(sqrt3_m, -1.0_m);
-	m2.translate(2.0_m, 0.0_m).rotate(-30.0_deg);
+	m1.rotate(-30.0_deg).translate(2.0_m, 0.0_m);
+	m2.translate(sqrt3_m, -1.0_m).rotate(-30.0_deg);
 	auto m3 = Transform{ sqrt3_m, -1.0_m, -30.0_deg };
 	REQUIRE(nearlyEqual(m1, m2));
 	REQUIRE(nearlyEqual(m2, m3));

@@ -78,8 +78,8 @@ namespace Mikrokosmos
 
 	Transform& Transform::operator*=(const Transform & m2) noexcept
 	{
-		setTranslation(m2.translation() + m2.rotation() * translation_);
-		setRotation(m2.rotation() * rotation_);
+		setTranslation(rotation_ * m2.translation() + translation_);
+		setRotation(rotation_ * m2.rotation());
 		return *this;
 	}
 
@@ -115,8 +115,8 @@ namespace Mikrokosmos
 
 	Transform operator*(const Transform & m1, const Transform & m2) noexcept
 	{
-		auto result = m2;
-		result *= m1;
+		auto result = m1;
+		result *= m2;
 		return result;
 	}
 

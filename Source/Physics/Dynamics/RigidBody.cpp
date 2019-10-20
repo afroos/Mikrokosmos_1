@@ -69,7 +69,8 @@ namespace Mikrokosmos
 
 	Angle RigidBody::angularPosition() const noexcept
 	{
-		return pose_.rotation.angle();
+		//return pose_.rotation.angle();
+		return Angle();
 	}
 
 	LinearVelocity2 RigidBody::linearVelocity() const noexcept
