@@ -11,7 +11,7 @@ namespace Mikrokosmos
 	public:
 
 		Material() noexcept;
-		Material(const MaterialParameters& parameters) noexcept;
+		explicit Material(const MaterialParameters& parameters) noexcept;
 
 		AreaDensity density() const noexcept;
 		Real restitution() const noexcept;

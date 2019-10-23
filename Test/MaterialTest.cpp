@@ -14,24 +14,18 @@ TEST_CASE("Material: Construction")
 
 	Material m1{parameters};
 
-	Material m2 = MaterialParameters{}.density(2.0_kgpm2)
-									  .restitution(0.5)
-									  .staticFriction(2.0)
-									  .dynamicFriction(1.0);
-
-	Material m3{ MaterialParameters{}.density(2.0_kgpm2)
+	Material m2{ MaterialParameters{}.density(2.0_kgpm2)
 									 .restitution(0.5)
 									 .staticFriction(2.0)
 									 .dynamicFriction(1.0) };
 
-	auto m4 = std::make_shared<Material>(MaterialParameters{}.density(2.0_kgpm2)
+	auto m3 = std::make_shared<Material>(MaterialParameters{}.density(2.0_kgpm2)
 															 .restitution(0.5)
 															 .staticFriction(2.0)
 															 .dynamicFriction(1.0));
 
 	REQUIRE(m1 == m2);
-	REQUIRE(m2 == m3);
-	REQUIRE(m3 == *m4);
+	REQUIRE(m2 == *m3);
 }
 
 TEST_CASE("Material: Acessors")
