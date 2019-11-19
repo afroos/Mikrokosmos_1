@@ -11,12 +11,12 @@ Material::Material() noexcept
 {
 }
 
-Material::Material(const MaterialParameters& parameters) noexcept
+Material::Material(const MaterialParameters& p) noexcept
 {
-	setDensity(parameters.density_);
-	setRestitution(parameters.restitution_);
-	setStaticFriction(parameters.staticFriction_);
-	setDynamicFriction(parameters.dynamicFriction_);
+	setDensity(p.density);
+	setRestitution(p.restitution);
+	setStaticFriction(p.staticFriction);
+	setDynamicFriction(p.dynamicFriction);
 }
 
 AreaDensity Material::density() const noexcept
@@ -39,28 +39,28 @@ Real Material::dynamicFriction() const noexcept
 	return dynamicFriction_;
 }
 
-void Material::setDensity(AreaDensity density) noexcept
+void Material::setDensity(AreaDensity rho) noexcept
 {
-	assert(std::isfinite(density.magnitude) && density.magnitude >= 0.0);
-	density_ = density;
+	assert(std::isfinite(rho.magnitude) && rho.magnitude >= 0.0);
+	density_ = rho;
 }
 
-void Material::setRestitution(Real restitution) noexcept
+void Material::setRestitution(Real e) noexcept
 {
-	assert(restitution >= 0.0 && restitution <= 1.0);
-	restitution_ = restitution;
+	assert(e >= 0.0 && e <= 1.0);
+	restitution_ = e;
 }
 
-void Material::setStaticFriction(Real staticFriction) noexcept
+void Material::setStaticFriction(Real mus) noexcept
 {
-	assert(std::isfinite(staticFriction) && staticFriction >= 0.0 && staticFriction >= dynamicFriction_);
-	staticFriction_ = staticFriction;
+	assert(std::isfinite(mus) && mus >= 0.0 && mus >= dynamicFriction_);
+	staticFriction_ = mus;
 }
 
-void Material::setDynamicFriction(Real dynamicFriction) noexcept
+void Material::setDynamicFriction(Real mud) noexcept
 {
-	assert(std::isfinite(dynamicFriction) && dynamicFriction >= 0.0 && dynamicFriction <= staticFriction_);
-	dynamicFriction_ = dynamicFriction;
+	assert(std::isfinite(mud) && mud >= 0.0 && mud <= staticFriction_);
+	dynamicFriction_ = mud;
 }
 
 bool operator==(const Material& m1, const Material& m2) noexcept

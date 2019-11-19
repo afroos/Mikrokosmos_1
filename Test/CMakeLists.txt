@@ -9,7 +9,7 @@ target_sources(UnitTests PRIVATE
 	RealTest.cpp
 	RigidBodyTest.cpp
 	SIUnitsTest.cpp
-	TransformTest.cpp
+	PoseTest.cpp
 	VectorTest.cpp
 	WorldTest.cpp
 )

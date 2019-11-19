@@ -4,7 +4,8 @@
 using namespace Mikrokosmos;
 
 TEST_CASE("RigidBody: Construction") {
-	auto parameters = RigidBodyParameters{}.type(BodyType::Static);
+	auto parameters = RigidBodyParameters{}.withMass(5.0_kg)
+										   .withLinearPosition(Length2{1.0_m, -2.5_m});
 
 	RigidBody b1{ parameters };
 }

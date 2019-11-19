@@ -4,7 +4,7 @@
 using namespace Mikrokosmos;
 
 TEST_CASE("World: Construction") {
-	World w;
+	/*World w;*/
 }
 
 

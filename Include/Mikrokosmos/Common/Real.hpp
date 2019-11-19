@@ -21,12 +21,12 @@ namespace Mikrokosmos
 
 	inline bool isPositive(Real r)
 	{
-		return (r > Real{ 0 } && isFinite(r));
+		return (r > Real{ 0 });
 	}
 
 	inline bool isNegative(Real r)
 	{
-		return (r < Real{ 0 } && isFinite(r));
+		return (r < Real{ 0 });
 	}
 
 	inline bool isNonPositive(Real r)

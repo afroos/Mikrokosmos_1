@@ -3,35 +3,30 @@
 namespace Mikrokosmos 
 {
 
-	RigidBody::RigidBody() noexcept
-		: RigidBody{ RigidBodyParameters{} }
+	RigidBody::RigidBody(const RigidBodyParameters& p) noexcept
 	{
+		setMass(Real{ 1 } / p.inverseMass);
 	}
 
-	RigidBody::RigidBody(const RigidBodyParameters& parameters) noexcept
-	{
+	//BodyType RigidBody::type() const noexcept
+	//{
+	//	return type_;
+	//}
 
-	}
+	//bool RigidBody::isStatic() const noexcept
+	//{
+	//	return type_ == BodyType::Static;
+	//}
 
-	BodyType RigidBody::type() const noexcept
-	{
-		return type_;
-	}
+	//bool RigidBody::isKinematic() const noexcept
+	//{
+	//	return type_ == BodyType::Kinematic;
+	//}
 
-	bool RigidBody::isStatic() const noexcept
-	{
-		return type_ == BodyType::Static;
-	}
-
-	bool RigidBody::isKinematic() const noexcept
-	{
-		return type_ == BodyType::Kinematic;
-	}
-
-	bool RigidBody::isDynamic() const noexcept
-	{
-		return type_ == BodyType::Dynamic;
-	}
+	//bool RigidBody::isDynamic() const noexcept
+	//{
+	//	return type_ == BodyType::Dynamic;
+	//}
 
 	Mass RigidBody::mass() const noexcept
 	{
@@ -43,6 +38,11 @@ namespace Mikrokosmos
 		{
 			return Real{ 1 } / inverseMass_;
 		}
+	}
+
+	InverseMass RigidBody::inverseMass() const noexcept
+	{
+		return inverseMass_;
 	}
 
 	MomentOfInertia RigidBody::momentOfInertia() const noexcept
@@ -57,6 +57,11 @@ namespace Mikrokosmos
 		}
 	}
 
+	InverseMomentOfInertia RigidBody::inverseMomentOfInertia() const noexcept
+	{
+		return inverseMomentOfInertia_;
+	}
+
 	Length2 RigidBody::centerOfMass() const noexcept
 	{
 		return linearPosition();
@@ -64,13 +69,12 @@ namespace Mikrokosmos
 
 	Length2 RigidBody::linearPosition() const noexcept
 	{
-		return pose_.translation();
+		return pose_.position();
 	}
 
 	Angle RigidBody::angularPosition() const noexcept
 	{
-		//return pose_.rotation.angle();
-		return Angle();
+		return pose_.orientation().angle();
 	}
 
 	LinearVelocity2 RigidBody::linearVelocity() const noexcept
@@ -83,7 +87,7 @@ namespace Mikrokosmos
 		return angularVelocity_;
 	}
 
-	Frequency RigidBody::linearDamping() const noexcept
+	/*Frequency RigidBody::linearDamping() const noexcept
 	{
 		return linearDamping_;
 	}
@@ -91,9 +95,9 @@ namespace Mikrokosmos
 	Frequency RigidBody::angularDamping() const noexcept
 	{
 		return angularDamping_;
-	}
+	}*/
 
-	bool RigidBody::canSleep() const noexcept
+	/*bool RigidBody::canSleep() const noexcept
 	{
 		return canSleep_;
 	}
@@ -101,49 +105,76 @@ namespace Mikrokosmos
 	bool RigidBody::isAwake() const noexcept
 	{
 		return isAwake_;
-	}
+	}*/
 
 	//void Body::setType(BodyType type) noexcept
 	//{
 	//	//
 	//}
 
-	void RigidBody::setMass(Mass mass) noexcept
+	void RigidBody::setMass(Mass m) noexcept
 	{
-		assert(mass > 0.0_kg);
-		inverseMass_ = Real{ 1 } / mass;
+		setInverseMass(Real{ 1 } / m);
 	}
 
-	void RigidBody::setMomentOfInertia(MomentOfInertia inertia) noexcept
+	void RigidBody::setInverseMass(InverseMass im) noexcept
 	{
-		assert(inertia > 0.0_kgm2);
-		inverseMomentOfInertia_ = Real{ 1 } / inertia;
+		assert(isNonNegative(im) && isFinite(im));
+		inverseMass_ = im;
 	}
 
-	void RigidBody::setVelocity(const LinearVelocity2& linearVelocity, AngularVelocity angularVelocity) noexcept
+	void RigidBody::setMomentOfInertia(MomentOfInertia i) noexcept
 	{
-		assert(isFinite(linearVelocity) && isFinite(angularVelocity));
-
-		if (!isZero(linearVelocity) || !isZero(angularVelocity))
-		{
-			if (isStatic())
-			{
-				return;
-			}
-			awaken();
-		}
-		linearVelocity_ = linearVelocity;
-		angularVelocity_ = angularVelocity;
+		setInverseMomentOfInertia(Real{ 1 } / i);
 	}
 
-	void RigidBody::setLinearVelocity(const LinearVelocity2& linearVelocity) noexcept
+	void RigidBody::setInverseMomentOfInertia(InverseMomentOfInertia ii) noexcept
 	{
-		setVelocity(linearVelocity, angularVelocity_);
+		assert(isNonNegative(ii) && isFinite(ii));
+		inverseMomentOfInertia_ = ii;
 	}
 
-	void RigidBody::setAngularVelocity(AngularVelocity angularVelocity) noexcept
+	void RigidBody::setPose(const Pose& pose) noexcept
 	{
-		setVelocity(linearVelocity_, angularVelocity);
+		assert(isFinite(pose));
+		
+		pose_ = pose;
+	}
+
+	void RigidBody::setLinearPosition(Length2 r) noexcept
+	{
+		setPose(Pose{ r, pose_.orientation() });
+	}
+
+	void RigidBody::setAngularPosition(Angle theta) noexcept
+	{
+		setPose(Pose{ pose_.position(), Rotation2{theta} });
+	}
+
+	void RigidBody::setVelocity(const LinearVelocity2& v, AngularVelocity omega) noexcept
+	{
+		assert(isFinite(v) && isFinite(omega));
+
+		//if (!isZero(linearVelocity) || !isZero(angularVelocity))
+		//{
+		//	if (isStatic())
+		//	{
+		//		return;
+		//	}
+		//	awaken();
+		//}
+		linearVelocity_ = v;
+		angularVelocity_ = omega;
+	}
+
+	void RigidBody::setLinearVelocity(const LinearVelocity2& v) noexcept
+	{
+		setVelocity(v, angularVelocity_);
+	}
+
+	void RigidBody::setAngularVelocity(AngularVelocity omega) noexcept
+	{
+		setVelocity(linearVelocity_, omega);
 	}
 
 	// velocity = velocity / (1 + damping*dt)					  TUTORIAL  Hz
@@ -159,19 +190,19 @@ namespace Mikrokosmos
 		// v2 = exp(-c * dt) * v1
 		// Pade approximation (see https://en.wikipedia.org/wiki/Pad%C3%A9_approximant ):
 		// v2 = v1 * 1 / (1 + c * dt)
-	void RigidBody::setLinearDamping(Frequency linearDamping) noexcept
-	{
-		assert(isNonNegative(linearDamping));
-		linearDamping_ = linearDamping;
-	}
+	//void RigidBody::setLinearDamping(Frequency linearDamping) noexcept
+	//{
+	//	assert(isNonNegative(linearDamping));
+	//	linearDamping_ = linearDamping;
+	//}
 
-	void RigidBody::setAngularDamping(Frequency angularDamping) noexcept
-	{
-		assert(isNonNegative(angularDamping));
-		angularDamping_ = angularDamping;
-	}
+	//void RigidBody::setAngularDamping(Frequency angularDamping) noexcept
+	//{
+	//	assert(isNonNegative(angularDamping));
+	//	angularDamping_ = angularDamping;
+	//}
 
-	void RigidBody::allowSleep() noexcept
+	/*void RigidBody::allowSleep() noexcept
 	{
 		canSleep_ = true;
 	}
@@ -186,84 +217,85 @@ namespace Mikrokosmos
 				awaken();
 			}
 		}
-	}
+	}*/
 
-	void RigidBody::sleep() noexcept
+	//void RigidBody::sleep() noexcept
+	//{
+	//	if (canSleep() && isAwake())
+	//	{
+	//		isAwake_ = false;
+	//		setVelocity({0.0_mps, 0.0_mps}, 0.0_radps);
+	//	}
+	//}
+
+	//void RigidBody::awaken() noexcept
+	//{
+	//	if (!isStatic() && !isAwake())
+	//	{
+	//		isAwake_ = true;
+	//	}
+	//}
+
+	void RigidBody::applyForce(const Force2& f) noexcept
 	{
-		if (canSleep() && isAwake())
-		{
-			isAwake_ = false;
-			setVelocity({0.0_mps, 0.0_mps}, 0.0_radps);
-		}
+		assert(isFinite(f));
+		totalForce_ += f;
 	}
 
-	void RigidBody::awaken() noexcept
+	void RigidBody::applyForceAtPoint(const Force2& f, const Length2& r) noexcept
 	{
-		if (!isStatic() && !isAwake())
-		{
-			isAwake_ = true;
-		}
+		applyForce(f);
+		applyTorque(perpDot(r - centerOfMass(), f));
 	}
 
-	void RigidBody::applyForce(const Force2& force) noexcept
+	void RigidBody::applyTorque(Torque tau) noexcept
 	{
-		assert(isFinite(force));
-		totalForce_ += force;
+		assert(isFinite(tau));
+		totalTorque_ += tau;
 	}
 
-	void RigidBody::applyForceAtPoint(const Force2& force, const Length2& point) noexcept
+	void RigidBody::applyLinearImpulse(const LinearImpulse2& j) noexcept
 	{
-		applyForce(force);
-		applyTorque(perpDot(point - centerOfMass(), force));
+		assert(isFinite(j));
+		auto v = linearVelocity_ + j * inverseMass_;
+		setLinearVelocity(v);
 	}
 
-	void RigidBody::applyTorque(Torque torque) noexcept
+	void RigidBody::applyLinearImpulseAtPoint(const LinearImpulse2& j, const Length2& r) noexcept
 	{
-		assert(isFinite(torque));
-		totalTorque_ += torque;
+		applyLinearImpulse(j);
+		applyAngularImpulse(perpDot(r - centerOfMass(), j));
 	}
 
-	void RigidBody::applyLinearImpulse(const LinearImpulse2& linearImpulse) noexcept
+	void RigidBody::applyAngularImpulse(AngularImpulse l) noexcept
 	{
-		assert(isFinite(linearImpulse));
-		auto newLinearVelocity = linearVelocity_ + linearImpulse * inverseMass_;
-		setLinearVelocity(newLinearVelocity);
+		assert(isFinite(l));
+		auto omega = angularVelocity_ + l * inverseMomentOfInertia_;
+		setAngularVelocity(omega);
 	}
 
-	void RigidBody::applyLinearImpulseAtPoint(const LinearImpulse2& linearImpulse, const Length2& point) noexcept
+	void RigidBody::integrate(Time dt)
 	{
-		applyLinearImpulse(linearImpulse);
-		applyAngularImpulse(perpDot(point - centerOfMass(), linearImpulse));
+		if (isZero(inverseMass_)) return;
+
+		const auto linearAcceleration = totalForce_ * inverseMass_;
+		const auto angularAcceleration = totalTorque_ * inverseMomentOfInertia_;
+
+		linearVelocity_ += linearAcceleration * dt;
+		angularVelocity_ += angularAcceleration * dt;
+
+		// drag
+
+		pose_.translate(linearVelocity_ * dt);
+		pose_.rotate(angularVelocity_ * dt);
+
+		clearForces();
 	}
 
-	void RigidBody::applyAngularImpulse(AngularImpulse angularImpulse) noexcept
+	void RigidBody::clearForces() noexcept
 	{
-		assert(isFinite(angularImpulse));
-		auto newAngularVelocity = angularVelocity_ + angularImpulse * inverseMomentOfInertia_;
-		setAngularVelocity(newAngularVelocity);
+		totalForce_ = Force2{ 0.0_N, 0.0_N };
+		totalTorque_ = 0.0_Nm;
 	}
-
-/*
-
-
-Body::integrate(Time duration)
-{
-	assert(duration >= 0.0_s);
-	if (inverseMass_ <= InverseMass{ 0 }) return;
-
-	const auto linearAcceleration = totalForce_ * inverseMass_;
-	const auto angularAcceleration = totalTorque_ * inverseMomentOfInertia_;
-
-	linearVelocity_ += linearAcceleration * duration;
-	angularVelocity_ += angularAcceleration * duration;
-
-	// drag
-
-	linearPosition_ += linearVelocity_ * duration;
-	angularPosition_ += angularPosition * duration;
-
-	totalForce_ = 0.0_N;
-	totalTorque_ = 0.0_Nm;
-}*/
 
 }

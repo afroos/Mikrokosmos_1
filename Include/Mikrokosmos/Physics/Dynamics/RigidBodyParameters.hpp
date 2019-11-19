@@ -1,7 +1,7 @@
 #ifndef MIKROKOSMOS_PHYSICS_DYNAMICS_BODY_PARAMETERS_HPP
 #define MIKROKOSMOS_PHYSICS_DYNAMICS_BODY_PARAMETERS_HPP
 
-#include <Mikrokosmos/Physics/Dynamics/BodyType.hpp>
+//#include <Mikrokosmos/Physics/Dynamics/BodyType.hpp>
 #include <Mikrokosmos/Physics/SIUnits.hpp>
 
 namespace Mikrokosmos
@@ -10,82 +10,87 @@ namespace Mikrokosmos
 	{
 	public:
 
-		inline constexpr RigidBodyParameters& type(BodyType type) noexcept;
+		//inline constexpr RigidBodyParameters& type(BodyType type) noexcept;
 
-		inline constexpr RigidBodyParameters& mass(Mass mass) noexcept;
-		inline constexpr RigidBodyParameters& momentOfInertia(MomentOfInertia inertia) noexcept;
+		inline constexpr RigidBodyParameters& withMass(Mass m) noexcept;
+		inline constexpr RigidBodyParameters& withMomentOfInertia(MomentOfInertia i) noexcept;
 
-		inline constexpr RigidBodyParameters& linearPosition(Length2 linearPosition) noexcept;
-		inline constexpr RigidBodyParameters& angularPosition(Angle angularPosition) noexcept;
-		//inline constexpr RigidBodyParameters& pose(const Transform& pose) noexcept;
+		inline constexpr RigidBodyParameters& withLinearPosition(Length2 r) noexcept;
+		inline constexpr RigidBodyParameters& withAngularPosition(Angle theta) noexcept;
+		inline constexpr RigidBodyParameters& withPose(const Pose& pose) noexcept;
 
-		inline constexpr RigidBodyParameters& linearVelocity(LinearVelocity2 linearVelocity) noexcept;
-		inline constexpr RigidBodyParameters& angularVelocity(AngularVelocity angularVelocity) noexcept;
+		inline constexpr RigidBodyParameters& withLinearVelocity(LinearVelocity2 v) noexcept;
+		inline constexpr RigidBodyParameters& withAngularVelocity(AngularVelocity omega) noexcept;
 
-		inline constexpr RigidBodyParameters& linearDamping(Frequency linearDamping) noexcept;
-		inline constexpr RigidBodyParameters& angularDamping(Frequency angularDamping) noexcept;
+		/*inline constexpr RigidBodyParameters& linearDamping(Frequency linearDamping) noexcept;
+		inline constexpr RigidBodyParameters& angularDamping(Frequency angularDamping) noexcept;*/
 
-		inline constexpr RigidBodyParameters& canSleep(bool canSleep) noexcept;
-		inline constexpr RigidBodyParameters& awake(bool awake) noexcept;
+		/*inline constexpr RigidBodyParameters& canSleep(bool canSleep) noexcept;
+		inline constexpr RigidBodyParameters& awake(bool awake) noexcept;*/
 
-		BodyType type_{ BodyType::Dynamic };
-		InverseMass inverseMass_{ 1 };
-		InverseMomentOfInertia inverseMomentOfInertia_{ 0 };
-		Length2 linearPosition_{ Length2{ 0.0_m, 0.0_m } };
-		Angle angularPosition_{ 0.0_deg };
-		LinearVelocity2 linearVelocity_{ LinearVelocity2{ 0.0_mps, 0.0_mps } };
-		AngularVelocity angularVelocity_{ 0.0_radps };
-		Frequency linearDamping_{ 0.0_Hz };
-		Frequency angularDamping_{ 0.0_Hz };
-		bool canSleep_{ true };
-		bool awake_{ true };
+		//BodyType type_{ BodyType::Dynamic };
+		InverseMass inverseMass{ 1 };
+		InverseMomentOfInertia inverseMomentOfInertia{ 0 };
+		Length2 linearPosition{ Length2{ 0.0_m, 0.0_m } };
+		Angle angularPosition{ 0.0_deg };
+		LinearVelocity2 linearVelocity{ LinearVelocity2{ 0.0_mps, 0.0_mps } };
+		AngularVelocity angularVelocity{ 0.0_radps };
+		/*Frequency linearDamping_{ 0.0_Hz };
+		Frequency angularDamping_{ 0.0_Hz };*/
+		/*bool canSleep_{ true };
+		bool awake_{ true };*/
 	};
 
-	inline constexpr RigidBodyParameters& RigidBodyParameters::type(BodyType type) noexcept
+	//inline constexpr RigidBodyParameters& RigidBodyParameters::type(BodyType type) noexcept
+	//{
+	//	type_ = type;
+	//	return *this;
+	//}
+
+	inline constexpr RigidBodyParameters& RigidBodyParameters::withMass(Mass m) noexcept
 	{
-		type_ = type;
+		inverseMass = Real{ 1 } / m;
 		return *this;
 	}
 
-	inline constexpr RigidBodyParameters& RigidBodyParameters::mass(Mass mass) noexcept
+	inline constexpr RigidBodyParameters& RigidBodyParameters::withMomentOfInertia(MomentOfInertia i) noexcept
 	{
-		inverseMass_ = Real{ 1 } / mass;
+		inverseMomentOfInertia = Real{ 1 } / i;
 		return *this;
 	}
 
-	inline constexpr RigidBodyParameters& RigidBodyParameters::momentOfInertia(MomentOfInertia inertia) noexcept
+	inline constexpr RigidBodyParameters& RigidBodyParameters::withLinearPosition(Length2 r) noexcept
 	{
-		inverseMomentOfInertia_ = Real{ 1 } / inertia;
+		linearPosition = r;
 		return *this;
 	}
 
-	inline constexpr RigidBodyParameters& RigidBodyParameters::linearPosition(Length2 linearPosition) noexcept
+	inline constexpr RigidBodyParameters& RigidBodyParameters::withAngularPosition(Angle theta) noexcept
 	{
-		linearPosition_ = linearPosition;
+		angularPosition = theta;
 		return *this;
 	}
 
-	inline constexpr RigidBodyParameters& RigidBodyParameters::angularPosition(Angle angularPosition) noexcept
+	inline constexpr RigidBodyParameters& RigidBodyParameters::withPose(const Pose& pose) noexcept
 	{
-		angularPosition_ = angularPosition;
+		withLinearPosition(pose.position());
+		withAngularPosition(pose.orientation().angle());
 		return *this;
 	}
 
-	//inline constexpr RigidBodyParameters& pose(const Transform& pose) noexcept
-
-	inline constexpr RigidBodyParameters& RigidBodyParameters::linearVelocity(LinearVelocity2 linearVelocity) noexcept
+	inline constexpr RigidBodyParameters& RigidBodyParameters::withLinearVelocity(LinearVelocity2 v) noexcept
 	{
-		linearVelocity_ = linearVelocity;
+		linearVelocity = v;
 		return *this;
 	}
 
-	inline constexpr RigidBodyParameters& RigidBodyParameters::angularVelocity(AngularVelocity angularVelocity) noexcept
+	inline constexpr RigidBodyParameters& RigidBodyParameters::withAngularVelocity(AngularVelocity omega) noexcept
 	{
-		angularVelocity_ = angularVelocity;
+		angularVelocity = omega;
 		return *this;
 	}
 
-	inline constexpr RigidBodyParameters& RigidBodyParameters::linearDamping(Frequency linearDamping) noexcept
+	/*inline constexpr RigidBodyParameters& RigidBodyParameters::linearDamping(Frequency linearDamping) noexcept
 	{
 		linearDamping_ = linearDamping;
 		return *this;
@@ -95,19 +100,19 @@ namespace Mikrokosmos
 	{
 		angularDamping_ = angularDamping;
 		return *this;
-	}
+	}*/
 
-	inline constexpr RigidBodyParameters& RigidBodyParameters::canSleep(bool canSleep) noexcept
-	{
-		canSleep_ = canSleep;
-		return *this;
-	}
+	//inline constexpr RigidBodyParameters& RigidBodyParameters::canSleep(bool canSleep) noexcept
+	//{
+	//	canSleep_ = canSleep;
+	//	return *this;
+	//}
 
-	inline constexpr RigidBodyParameters& RigidBodyParameters::awake(bool awake) noexcept
-	{
-		awake_ = awake;
-		return *this;
-	}
+	//inline constexpr RigidBodyParameters& RigidBodyParameters::awake(bool awake) noexcept
+	//{
+	//	awake_ = awake;
+	//	return *this;
+	//}
 
 }
 

@@ -7,22 +7,22 @@ using namespace Mikrokosmos;
 
 TEST_CASE("Material: Construction") 
 {
-	auto parameters = MaterialParameters{}.density(2.0_kgpm2)
-										  .restitution(0.5)
-									      .staticFriction(2.0)
-										  .dynamicFriction(1.0);
+	auto parameters = MaterialParameters{}.withDensity(2.0_kgpm2)
+										  .withRestitution(0.5)
+									      .withStaticFriction(2.0)
+										  .withDynamicFriction(1.0);
 
 	Material m1{parameters};
 
-	Material m2{ MaterialParameters{}.density(2.0_kgpm2)
-									 .restitution(0.5)
-									 .staticFriction(2.0)
-									 .dynamicFriction(1.0) };
+	Material m2{ MaterialParameters{}.withDensity(2.0_kgpm2)
+									 .withRestitution(0.5)
+								     .withStaticFriction(2.0)
+									 .withDynamicFriction(1.0) };
 
-	auto m3 = std::make_shared<Material>(MaterialParameters{}.density(2.0_kgpm2)
-															 .restitution(0.5)
-															 .staticFriction(2.0)
-															 .dynamicFriction(1.0));
+	auto m3 = std::make_shared<Material>(MaterialParameters{}.withDensity(2.0_kgpm2)
+															 .withRestitution(0.5)
+															 .withStaticFriction(2.0)
+															 .withDynamicFriction(1.0));
 
 	REQUIRE(m1 == m2);
 	REQUIRE(m2 == *m3);

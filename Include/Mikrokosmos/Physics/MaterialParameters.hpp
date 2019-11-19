@@ -9,38 +9,38 @@ namespace Mikrokosmos
 	{
 	public:
 
-		inline constexpr MaterialParameters& density(AreaDensity density) noexcept;
-		inline constexpr MaterialParameters& restitution(Real restitution) noexcept;
-		inline constexpr MaterialParameters& staticFriction(Real staticFriction) noexcept;
-		inline constexpr MaterialParameters& dynamicFriction(Real dynamicFriction) noexcept;
+		inline constexpr MaterialParameters& withDensity(AreaDensity rho) noexcept;
+		inline constexpr MaterialParameters& withRestitution(Real e) noexcept;
+		inline constexpr MaterialParameters& withStaticFriction(Real mu) noexcept;
+		inline constexpr MaterialParameters& withDynamicFriction(Real mu) noexcept;
 
-		AreaDensity density_{ 0.0_kgpm2 };
-		Real restitution_{ 0.0 };
-		Real staticFriction_{ 0.5 };
-		Real dynamicFriction_{ 0.2 };
+		AreaDensity density{ 0.0_kgpm2 };
+		Real restitution{ 0.0 };
+		Real staticFriction{ 0.5 };
+		Real dynamicFriction{ 0.2 };
 	};
 
-	inline constexpr MaterialParameters& MaterialParameters::density(AreaDensity density) noexcept
+	inline constexpr MaterialParameters& MaterialParameters::withDensity(AreaDensity rho) noexcept
 	{
-		density_ = density;
+		density = rho;
 		return *this;
 	}
 
-	inline constexpr MaterialParameters& MaterialParameters::restitution(Real restitution) noexcept
+	inline constexpr MaterialParameters& MaterialParameters::withRestitution(Real e) noexcept
 	{
-		restitution_ = restitution;
+		restitution = e;
 		return *this;
 	}
 
-	inline constexpr MaterialParameters& MaterialParameters::staticFriction(Real staticFriction) noexcept
+	inline constexpr MaterialParameters& MaterialParameters::withStaticFriction(Real mus) noexcept
 	{
-		staticFriction_ = staticFriction;
+		staticFriction = mus;
 		return *this;
 	}
 
-	inline constexpr MaterialParameters& MaterialParameters::dynamicFriction(Real dynamicFriction) noexcept
+	inline constexpr MaterialParameters& MaterialParameters::withDynamicFriction(Real mud) noexcept
 	{
-		dynamicFriction_ = dynamicFriction;
+		dynamicFriction = mud;
 		return *this;
 	}
 }
