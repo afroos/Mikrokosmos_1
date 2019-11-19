@@ -26,8 +26,8 @@ public:
 	InverseMomentOfInertia inverseMomentOfInertia() const noexcept;
 	Length2 centerOfMass() const noexcept;
 
-	Length2 linearPosition() const noexcept;
-	Angle angularPosition() const noexcept;
+	Length2 position() const noexcept;
+	Angle orientation() const noexcept;
 
 	LinearVelocity2 linearVelocity() const noexcept;
 	AngularVelocity angularVelocity() const noexcept;
@@ -46,8 +46,8 @@ public:
 	void setInverseMomentOfInertia(InverseMomentOfInertia ii) noexcept;
 
 	void setPose(const Pose& pose) noexcept;
-	void setLinearPosition(Length2 r) noexcept;
-	void setAngularPosition(Angle theta) noexcept;
+	void setPosition(Length2 r) noexcept;
+	void setOrientation(Angle theta) noexcept;
 
 	void setVelocity(const LinearVelocity2& v, AngularVelocity omega) noexcept;
 	void setLinearVelocity(const LinearVelocity2& v) noexcept;

@@ -64,15 +64,15 @@ namespace Mikrokosmos
 
 	Length2 RigidBody::centerOfMass() const noexcept
 	{
-		return linearPosition();
+		return position();
 	}
 
-	Length2 RigidBody::linearPosition() const noexcept
+	Length2 RigidBody::position() const noexcept
 	{
 		return pose_.position();
 	}
 
-	Angle RigidBody::angularPosition() const noexcept
+	Angle RigidBody::orientation() const noexcept
 	{
 		return pose_.orientation().angle();
 	}
@@ -141,12 +141,12 @@ namespace Mikrokosmos
 		pose_ = pose;
 	}
 
-	void RigidBody::setLinearPosition(Length2 r) noexcept
+	void RigidBody::setPosition(Length2 r) noexcept
 	{
 		setPose(Pose{ r, pose_.orientation() });
 	}
 
-	void RigidBody::setAngularPosition(Angle theta) noexcept
+	void RigidBody::setOrientation(Angle theta) noexcept
 	{
 		setPose(Pose{ pose_.position(), Rotation2{theta} });
 	}

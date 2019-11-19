@@ -15,8 +15,8 @@ namespace Mikrokosmos
 		inline constexpr RigidBodyParameters& withMass(Mass m) noexcept;
 		inline constexpr RigidBodyParameters& withMomentOfInertia(MomentOfInertia i) noexcept;
 
-		inline constexpr RigidBodyParameters& withLinearPosition(Length2 r) noexcept;
-		inline constexpr RigidBodyParameters& withAngularPosition(Angle theta) noexcept;
+		inline constexpr RigidBodyParameters& withPosition(Length2 r) noexcept;
+		inline constexpr RigidBodyParameters& withOrientation(Angle theta) noexcept;
 		inline constexpr RigidBodyParameters& withPose(const Pose& pose) noexcept;
 
 		inline constexpr RigidBodyParameters& withLinearVelocity(LinearVelocity2 v) noexcept;
@@ -31,8 +31,8 @@ namespace Mikrokosmos
 		//BodyType type_{ BodyType::Dynamic };
 		InverseMass inverseMass{ 1 };
 		InverseMomentOfInertia inverseMomentOfInertia{ 0 };
-		Length2 linearPosition{ Length2{ 0.0_m, 0.0_m } };
-		Angle angularPosition{ 0.0_deg };
+		Length2 position{ Length2{ 0.0_m, 0.0_m } };
+		Angle orientation{ 0.0_deg };
 		LinearVelocity2 linearVelocity{ LinearVelocity2{ 0.0_mps, 0.0_mps } };
 		AngularVelocity angularVelocity{ 0.0_radps };
 		/*Frequency linearDamping_{ 0.0_Hz };
@@ -59,22 +59,22 @@ namespace Mikrokosmos
 		return *this;
 	}
 
-	inline constexpr RigidBodyParameters& RigidBodyParameters::withLinearPosition(Length2 r) noexcept
+	inline constexpr RigidBodyParameters& RigidBodyParameters::withPosition(Length2 r) noexcept
 	{
-		linearPosition = r;
+		position = r;
 		return *this;
 	}
 
-	inline constexpr RigidBodyParameters& RigidBodyParameters::withAngularPosition(Angle theta) noexcept
+	inline constexpr RigidBodyParameters& RigidBodyParameters::withOrientation(Angle theta) noexcept
 	{
-		angularPosition = theta;
+		orientation = theta;
 		return *this;
 	}
 
 	inline constexpr RigidBodyParameters& RigidBodyParameters::withPose(const Pose& pose) noexcept
 	{
-		withLinearPosition(pose.position());
-		withAngularPosition(pose.orientation().angle());
+		withPosition(pose.position());
+		withOrientation(pose.orientation().angle());
 		return *this;
 	}
 
